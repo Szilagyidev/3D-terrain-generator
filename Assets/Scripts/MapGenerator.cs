@@ -5,7 +5,7 @@ using UnityEngine;
 public class MapGenerator : MonoBehaviour
 {
     public enum DrawMode{NoiseMap, ColourMap, Mesh};
-    public enum TerrainGenerationType{PerlinNoise, DiamondSquareAlgorithm};
+    public enum TerrainGenerationType{PerlinNoise, DiamondSquareAlgorithm, WorleyNoise};
     public TerrainGenerationType terrainGenerationType;
     public DrawMode drawMode;
 
@@ -26,6 +26,12 @@ public class MapGenerator : MonoBehaviour
 
     //Diamond square attributes.
     public float roughness;
+
+    //Wolrey attributes;
+    public int points;
+    public float colourDivider;
+    [Range(0,6)]
+    public int distanceBetweenPoints;
 
     public TerrainType[] regions;
 
@@ -84,12 +90,44 @@ public class MapGenerator : MonoBehaviour
 
             MapDisplay display = FindObjectOfType<MapDisplay>();
             if(drawMode == DrawMode.NoiseMap){
-                display.DrawTexture(TextureGenerator.TextureFromHeightMap(diamondsquareMap));
+                display.DrawTexture(TextureGenerator.TextureFromHeightMapForDiamond(diamondsquareMap));
             } else if(drawMode == DrawMode.ColourMap){
                 display.DrawTexture(TextureGenerator.TextureFromColourMap(colourMap, mapChunkSize, mapChunkSize));
             }else if(drawMode == DrawMode.Mesh){
                 display.DrawMesh(MeshGenerator.GenerateTerrainMeshForDiamond(diamondsquareMap, meshHeightMultiplier, levelOfDetail), TextureGenerator.TextureFromColourMap(colourMap, mapChunkSize, mapChunkSize));
                 }
+        }
+
+        else if(terrainGenerationType == TerrainGenerationType.WorleyNoise){
+
+            float[,] worleyMap = WorleyNoise.GenerateWorleyMap(mapChunkSize, mapChunkSize, points, distanceBetweenPoints);
+
+            Color[] colourMap = new Color[mapChunkSize * mapChunkSize];
+            for (int y = 0; y < mapChunkSize; y++)
+            {
+                for (int x = 0; x < mapChunkSize; x++)
+                {
+                    float currentHeight = worleyMap[x,y];
+
+                    for (int i = 0; i < regions.Length; i++)
+                    {
+                        if(currentHeight <= regions[i].heigth){
+                            colourMap[y * mapChunkSize + x] = regions[i].colour;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            MapDisplay display = FindObjectOfType<MapDisplay>();
+            if(drawMode == DrawMode.NoiseMap){
+                display.DrawTexture(TextureGenerator.TextureFromHeightMapForWorley(worleyMap, colourDivider));
+            }else if(drawMode == DrawMode.ColourMap){
+                display.DrawTexture(TextureGenerator.TextureFromColourMap(colourMap, mapChunkSize, mapChunkSize));
+            }else if(drawMode == DrawMode.Mesh){
+                display.DrawMesh(MeshGenerator.GenerateTerrainMeshForDiamond(worleyMap, meshHeightMultiplier, levelOfDetail), TextureGenerator.TextureFromColourMap(colourMap, mapChunkSize, mapChunkSize));
+                }
+
         }
     }
 
@@ -99,6 +137,18 @@ public class MapGenerator : MonoBehaviour
         }
         if(octaves < 0){
             octaves = 0;
+        }
+        if(points < 1){
+            points = 1;
+        }
+        if(meshHeightMultiplier <= 0){
+            meshHeightMultiplier = 0;
+        }
+        if(roughness <= 0){
+            roughness = 0;
+        }
+        if(distanceBetweenPoints < 0){
+            distanceBetweenPoints = 0;
         }
     }
 }
