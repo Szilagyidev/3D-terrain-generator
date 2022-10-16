@@ -76,7 +76,7 @@ public class MapGenerator : MonoBehaviour
             {
                 for (int x = 0; x < mapChunkSize; x++)
                 {
-                    float currentHeight = diamondsquareMap[x,y];
+                    float currentHeight = diamondsquareMap[x,y] / colourDivider;
 
                     for (int i = 0; i < regions.Length; i++)
                     {
@@ -90,7 +90,7 @@ public class MapGenerator : MonoBehaviour
 
             MapDisplay display = FindObjectOfType<MapDisplay>();
             if(drawMode == DrawMode.NoiseMap){
-                display.DrawTexture(TextureGenerator.TextureFromHeightMapForDiamond(diamondsquareMap));
+                display.DrawTexture(TextureGenerator.TextureFromHeightMapForDiamond(diamondsquareMap, colourDivider));
             } else if(drawMode == DrawMode.ColourMap){
                 display.DrawTexture(TextureGenerator.TextureFromColourMap(colourMap, mapChunkSize, mapChunkSize));
             }else if(drawMode == DrawMode.Mesh){
@@ -107,7 +107,7 @@ public class MapGenerator : MonoBehaviour
             {
                 for (int x = 0; x < mapChunkSize; x++)
                 {
-                    float currentHeight = worleyMap[x,y];
+                    float currentHeight = worleyMap[x,y] / colourDivider;
 
                     for (int i = 0; i < regions.Length; i++)
                     {

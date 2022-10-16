@@ -28,7 +28,7 @@ public static class TextureGenerator
         return TextureFromColourMap(colorMap, width, heigth);
     }
 
-    public static Texture2D TextureFromHeightMapForDiamond(float[,] heightMap){
+    public static Texture2D TextureFromHeightMapForDiamond(float[,] heightMap, float colourDivider){
         int width = heightMap.GetLength(0);
         int heigth = heightMap.GetLength(1);
 
@@ -37,7 +37,7 @@ public static class TextureGenerator
         {
             for (int x = 0; x < width; x++)
             {
-                colorMap[y * width + x] = Color.Lerp(Color.black, Color.white, heightMap[x,y]); // nem pontosan 0-1 érték között mozog hanem 1.2..stb
+                colorMap[y * width + x] = Color.Lerp(Color.black, Color.white, heightMap[x,y] / colourDivider); // nem pontosan 0-1 érték között mozog hanem 1.2..stb
             }
         }
         return TextureFromColourMap(colorMap, width, heigth);
