@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class TextureGenerator
 {
-    public static Texture2D TextureFromColourMap(Color[] colourMap, int width, int heigth){ // valszeg ez is kell külön minden algra
+    public static Texture2D TextureFromColourMap(Color[] colourMap, int width, int heigth){
         Texture2D texture =new Texture2D(width, heigth);
         texture.filterMode = FilterMode.Point;
         texture.wrapMode = TextureWrapMode.Clamp;

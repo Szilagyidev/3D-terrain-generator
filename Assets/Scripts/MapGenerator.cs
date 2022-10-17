@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MapGenerator : MonoBehaviour
 {
-    public enum DrawMode{NoiseMap, ColourMap, Mesh};
+    public enum DrawMode{NoiseMap, ColourMap, Mesh, FalloffMap};
     public enum TerrainGenerationType{PerlinNoise, DiamondSquareAlgorithm, WorleyNoise};
     public TerrainGenerationType terrainGenerationType;
     public DrawMode drawMode;
@@ -23,6 +23,7 @@ public class MapGenerator : MonoBehaviour
     public float meshHeightMultiplier;
     public AnimationCurve meshHeightCurve;
     public bool autoUpdate;
+    public bool useFalloff;
 
     //Diamond square attributes.
     public float roughness;
@@ -34,6 +35,11 @@ public class MapGenerator : MonoBehaviour
     public int distanceBetweenPoints;
 
     public TerrainType[] regions;
+    public float[,] fallOffMap;
+
+    void Awake(){
+        fallOffMap = FalloffGenerator.GenerateFalloffMap(mapChunkSize);
+    }
 
     public void GenerateMap(){
         if(terrainGenerationType == TerrainGenerationType.PerlinNoise){
@@ -45,6 +51,10 @@ public class MapGenerator : MonoBehaviour
             {
                 for (int x = 0; x < mapChunkSize; x++)
                 {
+                    if(useFalloff){
+                        noiseMap[x,y] = Mathf.Clamp01(noiseMap[x,y] - fallOffMap[x,y]);
+                    }
+
                     float currentHeight = noiseMap[x,y];
 
                     for (int i = 0; i < regions.Length; i++)
@@ -64,7 +74,9 @@ public class MapGenerator : MonoBehaviour
                 display.DrawTexture(TextureGenerator.TextureFromColourMap(colourMap, mapChunkSize, mapChunkSize));
             }else if(drawMode == DrawMode.Mesh){
                 display.DrawMesh(MeshGenerator.GenerateTerrainMeshForPerlin(noiseMap, meshHeightMultiplier, meshHeightCurve, levelOfDetail), TextureGenerator.TextureFromColourMap(colourMap, mapChunkSize, mapChunkSize));
-                }
+            }else if(drawMode == DrawMode.FalloffMap){
+                display.DrawTexture(TextureGenerator.TextureFromHeightMap(FalloffGenerator.GenerateFalloffMap(mapChunkSize)));
+            }
             }
 
         else if(terrainGenerationType == TerrainGenerationType.DiamondSquareAlgorithm){
@@ -95,7 +107,7 @@ public class MapGenerator : MonoBehaviour
                 display.DrawTexture(TextureGenerator.TextureFromColourMap(colourMap, mapChunkSize, mapChunkSize));
             }else if(drawMode == DrawMode.Mesh){
                 display.DrawMesh(MeshGenerator.GenerateTerrainMeshForDiamond(diamondsquareMap, meshHeightMultiplier, levelOfDetail), TextureGenerator.TextureFromColourMap(colourMap, mapChunkSize, mapChunkSize));
-                }
+            }
         }
 
         else if(terrainGenerationType == TerrainGenerationType.WorleyNoise){
@@ -126,8 +138,7 @@ public class MapGenerator : MonoBehaviour
                 display.DrawTexture(TextureGenerator.TextureFromColourMap(colourMap, mapChunkSize, mapChunkSize));
             }else if(drawMode == DrawMode.Mesh){
                 display.DrawMesh(MeshGenerator.GenerateTerrainMeshForDiamond(worleyMap, meshHeightMultiplier, levelOfDetail), TextureGenerator.TextureFromColourMap(colourMap, mapChunkSize, mapChunkSize));
-                }
-
+            }
         }
     }
 
@@ -150,6 +161,7 @@ public class MapGenerator : MonoBehaviour
         if(distanceBetweenPoints < 0){
             distanceBetweenPoints = 0;
         }
+        fallOffMap = FalloffGenerator.GenerateFalloffMap(mapChunkSize);
     }
 }
 
