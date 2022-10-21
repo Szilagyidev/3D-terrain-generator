@@ -5,12 +5,12 @@ using UnityEngine;
 public class MapGenerator : MonoBehaviour
 {
     public enum DrawMode{NoiseMap, ColourMap, Mesh, FalloffMap};
-    public enum TerrainGenerationType{PerlinNoise, DiamondSquareAlgorithm, WorleyNoise};
+    public enum TerrainGenerationType{PerlinNoise, RidgedPerlinNoise, DiamondSquareAlgorithm, WorleyNoise};
     public TerrainGenerationType terrainGenerationType;
     public DrawMode drawMode;
 
     //perlin noise attributes;
-    const int mapChunkSize = 128; // diamondra csak 128, 256 jó
+    const int mapChunkSize = 128; // diamondra csak 128, 256 jó 2^n miatt
     [Range(0,6)]
     public int levelOfDetail;
     public float noiseScale;
@@ -24,6 +24,9 @@ public class MapGenerator : MonoBehaviour
     public AnimationCurve meshHeightCurve;
     public bool autoUpdate;
     public bool useFalloff;
+
+    //Ridged perlin noise attributes;
+    public float inverton;
 
     //Diamond square attributes.
     public float roughness;
@@ -137,9 +140,47 @@ public class MapGenerator : MonoBehaviour
             }else if(drawMode == DrawMode.ColourMap){
                 display.DrawTexture(TextureGenerator.TextureFromColourMap(colourMap, mapChunkSize, mapChunkSize));
             }else if(drawMode == DrawMode.Mesh){
+                //GenerateForDiamond van meghivva pedig ez Worley
                 display.DrawMesh(MeshGenerator.GenerateTerrainMeshForDiamond(worleyMap, meshHeightMultiplier, levelOfDetail), TextureGenerator.TextureFromColourMap(colourMap, mapChunkSize, mapChunkSize));
             }
         }
+        else if(terrainGenerationType == TerrainGenerationType.RidgedPerlinNoise){
+
+            float[,] ridgednoiseMap = RidgedNoise.GenerateRidgedNoiseMap(mapChunkSize,mapChunkSize,perlinseed,noiseScale,octaves,presistance,lacunarity,offset, inverton);
+
+            Color[] colourMap = new Color[mapChunkSize * mapChunkSize];
+            for (int y = 0; y < mapChunkSize; y++)
+            {
+                for (int x = 0; x < mapChunkSize; x++)
+                {
+                    if(useFalloff){
+                        ridgednoiseMap[x,y] = Mathf.Clamp01(ridgednoiseMap[x,y] - fallOffMap[x,y]);
+                    }
+
+                    float currentHeight = ridgednoiseMap[x,y];
+
+                    for (int i = 0; i < regions.Length; i++)
+                    {
+                        if(currentHeight <= regions[i].heigth){
+                            colourMap[y * mapChunkSize + x] = regions[i].colour;
+                            break;
+                        }
+                    }
+                }
+            }
+        
+            MapDisplay display = FindObjectOfType<MapDisplay>();
+            if(drawMode == DrawMode.NoiseMap){
+                display.DrawTexture(TextureGenerator.TextureFromHeightMap(ridgednoiseMap));
+            }else if(drawMode == DrawMode.ColourMap){
+                display.DrawTexture(TextureGenerator.TextureFromColourMap(colourMap, mapChunkSize, mapChunkSize));
+            }else if(drawMode == DrawMode.Mesh){
+                display.DrawMesh(MeshGenerator.GenerateTerrainMeshForPerlin(ridgednoiseMap, meshHeightMultiplier, meshHeightCurve, levelOfDetail), TextureGenerator.TextureFromColourMap(colourMap, mapChunkSize, mapChunkSize));
+            }else if(drawMode == DrawMode.FalloffMap){
+                display.DrawTexture(TextureGenerator.TextureFromHeightMap(FalloffGenerator.GenerateFalloffMap(mapChunkSize)));
+            }
+            }
+        
     }
 
     void OnValidate(){

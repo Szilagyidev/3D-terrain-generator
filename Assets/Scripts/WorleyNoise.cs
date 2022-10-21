@@ -9,7 +9,7 @@ public static class WorleyNoise
  public static float[,] GenerateWorleyMap(int mapWidth, int mapHeight, int points, int distanceBetweenPoints){
 
     float[,] worleyMap = new float[mapWidth, mapHeight];
-
+    
     Vector2[] allpoints = new Vector2[points];
 
     for (int i = 0; i < points; i++)
@@ -28,7 +28,7 @@ public static class WorleyNoise
 
             for (int i = 0; i < points; i++)
             {
-                Vector2 pixel = new Vector2(x,y);
+                Vector2 pixel = new Vector2(x ,y);
                 float d = Vector2.Distance(pixel, allpoints[i]);
                 distances[i] = d;
                 sortedDistances[i] = d;
