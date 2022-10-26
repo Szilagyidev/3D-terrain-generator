@@ -15,9 +15,7 @@ public class MapGenerator : MonoBehaviour
     public RidgedPerlinData ridgedPerlinData;
     public TerrainRidgedPerlinData terrainRidgedPerlin;
 
-
-    public const int mapChunkSizeDiamond = 256; // diamondra csak 128, 256 jó 2^n miatt
-    public const int mapChunkSize = 241;  // 241pedig a level of detailre jó.
+    public const int mapChunkSize = 241;  // a level of detailre jó. a diamond square az 256
     [Range(0,6)]
     public int levelOfDetail;
     public bool autoUpdate;
@@ -60,7 +58,7 @@ public class MapGenerator : MonoBehaviour
             if(drawMode == DrawMode.NoiseMap){
                 display.DrawTexture(TextureGenerator.TextureFromHeightMapForDiamond(mapData.heightMap, diamondData.colourDivider));
             } else if(drawMode == DrawMode.ColourMap){
-                display.DrawTexture(TextureGenerator.TextureFromColourMap(mapData.colourMap, mapChunkSizeDiamond, mapChunkSizeDiamond));
+                display.DrawTexture(TextureGenerator.TextureFromColourMap(mapData.colourMap, mapChunkSize, mapChunkSize));
             }else if(drawMode == DrawMode.Mesh){
                 display.DrawMesh(MeshGenerator.GenerateTerrainMeshForDiamond(mapData.heightMap, terrainDiamondData.meshHeightMultiplier, levelOfDetail), TextureGenerator.TextureFromColourMap(mapData.colourMap, mapChunkSize, mapChunkSize));
             }
@@ -119,12 +117,12 @@ public class MapGenerator : MonoBehaviour
             }
 
     MapData GenerateMapDataForDiamond(){
-            float[,] diamondsquareMap = DiamondSquareAlgorithm.GenerateDiamondSquareMap(mapChunkSizeDiamond, mapChunkSizeDiamond, diamondData.roughness, diamondData.diamondseed);
+            float[,] diamondsquareMap = DiamondSquareAlgorithm.GenerateDiamondSquareMap(mapChunkSize + 15, mapChunkSize + 15, diamondData.roughness, diamondData.diamondseed); // 241 + 15 = 256
 
-            Color[] colourMap = new Color[mapChunkSizeDiamond * mapChunkSizeDiamond];
-            for (int y = 0; y < mapChunkSizeDiamond; y++)
+            Color[] colourMap = new Color[mapChunkSize * mapChunkSize];
+            for (int y = 0; y < mapChunkSize; y++)
             {
-                for (int x = 0; x < mapChunkSizeDiamond; x++)
+                for (int x = 0; x < mapChunkSize; x++)
                 {
                     float currentHeight = diamondsquareMap[x,y] / diamondData.colourDivider;
 
