@@ -60,7 +60,7 @@ public class MapGenerator : MonoBehaviour
             if(drawMode == DrawMode.NoiseMap){
                 display.DrawTexture(TextureGenerator.TextureFromHeightMapForDiamond(mapData.heightMap, diamondData.colourDivider));
             } else if(drawMode == DrawMode.ColourMap){
-                display.DrawTexture(TextureGenerator.TextureFromColourMap(mapData.colourMap, mapChunkSize, mapChunkSize));
+                display.DrawTexture(TextureGenerator.TextureFromColourMap(mapData.colourMap, mapChunkSizeDiamond, mapChunkSizeDiamond));
             }else if(drawMode == DrawMode.Mesh){
                 display.DrawMesh(MeshGenerator.GenerateTerrainMeshForDiamond(mapData.heightMap, terrainDiamondData.meshHeightMultiplier, levelOfDetail), TextureGenerator.TextureFromColourMap(mapData.colourMap, mapChunkSize, mapChunkSize));
             }
@@ -121,17 +121,17 @@ public class MapGenerator : MonoBehaviour
     MapData GenerateMapDataForDiamond(){
             float[,] diamondsquareMap = DiamondSquareAlgorithm.GenerateDiamondSquareMap(mapChunkSizeDiamond, mapChunkSizeDiamond, diamondData.roughness, diamondData.diamondseed);
 
-            Color[] colourMap = new Color[mapChunkSize * mapChunkSize];
-            for (int y = 0; y < mapChunkSize; y++)
+            Color[] colourMap = new Color[mapChunkSizeDiamond * mapChunkSizeDiamond];
+            for (int y = 0; y < mapChunkSizeDiamond; y++)
             {
-                for (int x = 0; x < mapChunkSize; x++)
+                for (int x = 0; x < mapChunkSizeDiamond; x++)
                 {
                     float currentHeight = diamondsquareMap[x,y] / diamondData.colourDivider;
 
                     for (int i = 0; i < regions.Length; i++)
                     {
                         if(currentHeight <= regions[i].heigth){
-                            colourMap[y * mapChunkSize + x] = regions[i].colour;
+                            colourMap[y * mapChunkSizeDiamond + x] = regions[i].colour;
                             break;
                         }
                     }
