@@ -28,7 +28,7 @@ public static class WorleyNoise
 
             for (int i = 0; i < points; i++)
             {
-                Vector2 pixel = new Vector2(x ,y);
+                Vector2 pixel = new Vector2(x, y);
                 float d = Vector2.Distance(pixel, allpoints[i]);
                 distances[i] = d;
                 sortedDistances[i] = d;
