@@ -131,7 +131,7 @@ public class MapGenerator : MonoBehaviour
                     for (int i = 0; i < regions.Length; i++)
                     {
                         if(currentHeight <= regions[i].heigth){
-                            colourMap[y * mapChunkSizeDiamond + x] = regions[i].colour;
+                            colourMap[y * mapChunkSize + x] = regions[i].colour; // mapChunkSize van
                             break;
                         }
                     }
