@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13386a0eb1bd2b843920f72c1d49df5f, type: 3}
   m_Name: RidgedPerlinNoise
   m_EditorClassIdentifier: 
-  autoUpdate: 0
-  noiseScale: 40
-  octaves: 4
+  autoUpdate: 1
+  noiseScale: 36.7
+  octaves: 3
   presistance: 0.571
   lacunarity: 2
   perlinseed: 0
   offset: {x: 0, y: 0}
-  inverton: 0.98
+  inverton: -0.61

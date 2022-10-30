@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28b1684e4e2dfc44c9b32efddb5cc83b, type: 3}
   m_Name: DiamondNoise
   m_EditorClassIdentifier: 
-  autoUpdate: 0
-  roughness: 1
-  diamondseed: 1
-  colourDivider: 1.18
+  autoUpdate: 1
+  roughness: 0.98
+  diamondseed: 0.65
+  colourDivider: 1.24

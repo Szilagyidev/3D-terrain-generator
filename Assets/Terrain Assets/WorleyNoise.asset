@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86eb95450cab0e4468bd54727555f96e, type: 3}
   m_Name: WorleyNoise
   m_EditorClassIdentifier: 
-  autoUpdate: 0
-  points: 51
+  autoUpdate: 1
+  points: 50
   colourDivider: 37.33
   distanceBetweenPoints: 0

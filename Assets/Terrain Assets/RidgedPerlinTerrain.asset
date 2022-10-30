@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b6e7804d18cca2468ac7c386baa7a65, type: 3}
   m_Name: RidgedPerlinTerrain
   m_EditorClassIdentifier: 
-  autoUpdate: 0
-  meshHeightMultiplier: 159
+  autoUpdate: 1
+  meshHeightMultiplier: 60.82
   meshHeightCurve:
     serializedVersion: 2
     m_Curve:

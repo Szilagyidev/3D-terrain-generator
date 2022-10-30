@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b7429a1cd4b26044b9a7f3bcd890286, type: 3}
   m_Name: WorleyTerrain
   m_EditorClassIdentifier: 
-  autoUpdate: 0
-  meshHeightMultiplier: 2.96
+  autoUpdate: 1
+  meshHeightMultiplier: 1

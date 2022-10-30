@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ba4055c03e8c5f45b3e6bd5a62ceeb6, type: 3}
   m_Name: DiamondTerrain
   m_EditorClassIdentifier: 
-  autoUpdate: 0
-  meshHeightMultiplier: 100.5
+  autoUpdate: 1
+  meshHeightMultiplier: 54.6

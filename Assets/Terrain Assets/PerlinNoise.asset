@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bb9c698a16a6b94bb26b7273cdda26c, type: 3}
   m_Name: PerlinNoise
   m_EditorClassIdentifier: 
-  autoUpdate: 0
-  noiseScale: 40.26
-  octaves: 4
-  presistance: 0.566
+  autoUpdate: 1
+  noiseScale: 53.59
+  octaves: 6
+  presistance: 0.476
   lacunarity: 2
   perlinseed: 0
-  offset: {x: 0, y: 0}
+  offset: {x: 5.1, y: 0}
