@@ -6,6 +6,7 @@ using UnityEngine;
 public class WorleyData : UpdatebleData
 {
     public int points;
+    [Range(0.0f,0.1f)]
     public float colourDivider;
     [Range(0,6)]
     public int distanceBetweenPoints;

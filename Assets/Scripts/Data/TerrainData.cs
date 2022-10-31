@@ -6,7 +6,7 @@ using UnityEngine;
 public class TerrainData : UpdatebleData
 {
 
-    public int uniformscale = 241; // uniform scale = 2.5f
+    public int uniformscale = 128;
     public float meshHeightMultiplier;
     public AnimationCurve meshHeightCurve;
     public bool useFalloff;

@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: PerlinTerrain
   m_EditorClassIdentifier: 
   autoUpdate: 1
-  uniformscale: 241
-  meshHeightMultiplier: 48.37
+  uniformscale: 128
+  meshHeightMultiplier: 34.3
   meshHeightCurve:
     serializedVersion: 2
     m_Curve:

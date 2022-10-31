@@ -20,7 +20,7 @@ public class MapGenerator : MonoBehaviour
     public TextureData textureData;
     public Material terrainMaterial;
 
-    public const int mapChunkSize = 241;  // a level of detailre jó. a diamond square az 256
+    public const int mapChunkSize = 128;  // a level of detailre jó. a diamond square az 256
     [Range(0,6)]
     public int levelOfDetail;
     public bool autoUpdate;
@@ -39,7 +39,7 @@ public class MapGenerator : MonoBehaviour
     }
 
     void OnTextureValuesUpdated(){
-     textureData.ApplyToMaterial(terrainMaterial);
+        textureData.ApplyToMaterial(terrainMaterial);
     }
 
     public void DrawMapInEditorForPerlin(){
@@ -49,6 +49,18 @@ public class MapGenerator : MonoBehaviour
                 display.DrawTexture(TextureGenerator.TextureFromHeightMap(mapData.heightMap));
             }else if(drawMode == DrawMode.Mesh){
                 display.DrawMesh(MeshGenerator.GenerateTerrainMeshForPerlin(mapData.heightMap, terrainData.meshHeightMultiplier, terrainData.meshHeightCurve, levelOfDetail));
+            }else if(drawMode == DrawMode.FalloffMap){
+                display.DrawTexture(TextureGenerator.TextureFromHeightMap(FalloffGenerator.GenerateFalloffMap(mapChunkSize)));
+            }
+    }
+
+    public void DrawMapInEditorForRidgedPerlin(){
+            MapData mapData = GenerateMapDataForRidgedPerlin();
+            MapDisplay display = FindObjectOfType<MapDisplay>();
+            if(drawMode == DrawMode.NoiseMap){
+                display.DrawTexture(TextureGenerator.TextureFromHeightMap(mapData.heightMap));
+            }else if(drawMode == DrawMode.Mesh){
+                display.DrawMesh(MeshGenerator.GenerateTerrainMeshForPerlin(mapData.heightMap, terrainRidgedPerlin.meshHeightMultiplier, terrainRidgedPerlin.meshHeightCurve, levelOfDetail));
             }else if(drawMode == DrawMode.FalloffMap){
                 display.DrawTexture(TextureGenerator.TextureFromHeightMap(FalloffGenerator.GenerateFalloffMap(mapChunkSize)));
             }
@@ -69,25 +81,14 @@ public class MapGenerator : MonoBehaviour
             if(drawMode == DrawMode.NoiseMap){
                 display.DrawTexture(TextureGenerator.TextureFromHeightMapForWorley(mapData.heightMap, worleyData.colourDivider));
             }else if(drawMode == DrawMode.Mesh){
-                //GenerateForDiamond a név de ugyanaz
+                                             //GenerateForDiamond a név de ugyanaz
                 display.DrawMesh(MeshGenerator.GenerateTerrainMeshForDiamond(mapData.heightMap, terrainWorleyData.meshHeightMultiplier, levelOfDetail));
             }
     }
-
-    public void DrawMapInEditorForRidgedPerlin(){
-            MapData mapData = GenerateMapDataForRidgedPerlin();
-            MapDisplay display = FindObjectOfType<MapDisplay>();
-            if(drawMode == DrawMode.NoiseMap){
-                display.DrawTexture(TextureGenerator.TextureFromHeightMap(mapData.heightMap));
-            }else if(drawMode == DrawMode.Mesh){
-                display.DrawMesh(MeshGenerator.GenerateTerrainMeshForPerlin(mapData.heightMap, terrainRidgedPerlin.meshHeightMultiplier, terrainRidgedPerlin.meshHeightCurve, levelOfDetail));
-            }else if(drawMode == DrawMode.FalloffMap){
-                display.DrawTexture(TextureGenerator.TextureFromHeightMap(FalloffGenerator.GenerateFalloffMap(mapChunkSize)));
-            }
-    }    
-
+    
    MapData GenerateMapDataForPerlin(){
-            float[,] noiseMap = Noise.GenerateNoiseMap(mapChunkSize,mapChunkSize,noiseData.perlinseed,noiseData.noiseScale,noiseData.octaves,noiseData.presistance,noiseData.lacunarity,noiseData.offset);
+            float[,] noiseMap = Noise.GenerateNoiseMap(mapChunkSize,mapChunkSize,noiseData.perlinseed,noiseData.noiseScale,
+            noiseData.octaves,noiseData.presistance,noiseData.lacunarity,noiseData.offset);
 
             if(terrainData.useFalloff){
 
@@ -108,38 +109,16 @@ public class MapGenerator : MonoBehaviour
             textureData.UpdateMeshHeights(terrainMaterial, terrainData.minHeight, terrainData.maxHeight);
             return new MapData(noiseMap);
         }
-
-    MapData GenerateMapDataForDiamond(){
-            float[,] diamondsquareMap = DiamondSquareAlgorithm.GenerateDiamondSquareMap(mapChunkSize + 15, mapChunkSize + 15, diamondData.roughness, diamondData.diamondseed); // 241 + 15 = 256
-
-                for (int y = 0; y < mapChunkSize; y++)
-                {
-                    for (int x = 0; x < mapChunkSize; x++)
-                    {
-                        //float currentHeight = diamondsquareMap[x,y] / diamondData.colourDivider;
-                    }
-                }
-            return new MapData(diamondsquareMap);
-        }
-
-    MapData GenerateMapDataForWolrey(){
-            float[,] worleyMap = WorleyNoise.GenerateWorleyMap(mapChunkSize, mapChunkSize, worleyData.points, worleyData.distanceBetweenPoints);
-
-            for (int y = 0; y < mapChunkSize; y++)
-            {
-                for (int x = 0; x < mapChunkSize; x++)
-                {
-                    //float currentHeight = worleyMap[x,y] / worleyData.colourDivider;
-                }
-            }
-            return new MapData(worleyMap);
-        }
-        
+    
     MapData GenerateMapDataForRidgedPerlin(){
-            float[,] ridgednoiseMap = RidgedNoise.GenerateRidgedNoiseMap(mapChunkSize,mapChunkSize,ridgedPerlinData.perlinseed,ridgedPerlinData.noiseScale,ridgedPerlinData.octaves,ridgedPerlinData.presistance,ridgedPerlinData.lacunarity,ridgedPerlinData.offset,
-            ridgedPerlinData.inverton);
+        float[,] ridgednoiseMap = RidgedNoise.GenerateRidgedNoiseMap(mapChunkSize,mapChunkSize,ridgedPerlinData.perlinseed,ridgedPerlinData.noiseScale,
+        ridgedPerlinData.octaves,ridgedPerlinData.presistance,ridgedPerlinData.lacunarity,ridgedPerlinData.offset,ridgedPerlinData.inverton);
 
-            if(terrainData.useFalloff){
+        if(terrainRidgedPerlin.useFalloff){
+
+            if(fallOffMap == null){
+                    fallOffMap = FalloffGenerator.GenerateFalloffMap(mapChunkSize);
+                }
 
             for (int y = 0; y < mapChunkSize; y++)
             {
@@ -151,9 +130,37 @@ public class MapGenerator : MonoBehaviour
                 }
             }
         }
-        textureData.UpdateMeshHeights(terrainMaterial, terrainData.minHeight, terrainData.maxHeight);
+        textureData.UpdateMeshHeights(terrainMaterial, terrainRidgedPerlin.minHeight, terrainRidgedPerlin.maxHeight);
         return new MapData(ridgednoiseMap);
     }
+
+    MapData GenerateMapDataForDiamond(){
+            float[,] diamondsquareMap = DiamondSquareAlgorithm.GenerateDiamondSquareMap(mapChunkSize, mapChunkSize, diamondData.roughness, diamondData.diamondseed);
+
+                for (int y = 0; y < mapChunkSize; y++)
+                {
+                    for (int x = 0; x < mapChunkSize; x++)
+                    {
+                       // falloffMap
+                    }
+                }
+            textureData.UpdateMeshHeights(terrainMaterial, terrainDiamondData.minHeight, terrainDiamondData.maxHeight / diamondData.colourDivider);
+            return new MapData(diamondsquareMap);
+        }
+
+    MapData GenerateMapDataForWolrey(){
+            float[,] worleyMap = WorleyNoise.GenerateWorleyMap(mapChunkSize, mapChunkSize, worleyData.points, worleyData.distanceBetweenPoints);
+
+            for (int y = 0; y < mapChunkSize; y++)
+            {
+                for (int x = 0; x < mapChunkSize; x++)
+                {
+                    // falloffMap
+                }
+            }
+            textureData.UpdateMeshHeights(terrainMaterial, terrainWorleyData.minHeight, terrainWorleyData.maxHeight / worleyData.colourDivider);
+            return new MapData(worleyMap);
+        }
                  
     void OnValidate(){
         if(terrainData != null){
@@ -168,13 +175,25 @@ public class MapGenerator : MonoBehaviour
             worleyData.OnValuesUpdated -= OnValuesUpdated;
             worleyData.OnValuesUpdated += OnValuesUpdated;
         }
+        if(terrainWorleyData != null){
+            terrainWorleyData.OnValuesUpdated -= OnValuesUpdated;
+            terrainWorleyData.OnValuesUpdated += OnValuesUpdated;
+        }
         if(diamondData != null){
             diamondData.OnValuesUpdated -= OnValuesUpdated;
             diamondData.OnValuesUpdated += OnValuesUpdated;
         }
+        if(terrainDiamondData != null){
+            terrainDiamondData.OnValuesUpdated -= OnValuesUpdated;
+            terrainDiamondData.OnValuesUpdated += OnValuesUpdated;
+        }
         if(ridgedPerlinData != null){
             ridgedPerlinData.OnValuesUpdated -= OnValuesUpdated;
             ridgedPerlinData.OnValuesUpdated += OnValuesUpdated;
+        }
+        if(terrainRidgedPerlin != null){
+            terrainRidgedPerlin.OnValuesUpdated -= OnValuesUpdated;
+            terrainRidgedPerlin.OnValuesUpdated += OnValuesUpdated;
         }
         if(textureData != null){
             textureData.OnValuesUpdated -= OnTextureValuesUpdated;

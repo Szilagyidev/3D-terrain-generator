@@ -14,6 +14,6 @@ public class MapDisplay : MonoBehaviour
 
    public void DrawMesh(MeshData meshData){
       meshFilter.sharedMesh = meshData.CreateMesh();
-      meshFilter.transform.localScale = Vector3.one * FindObjectOfType<MapGenerator>().terrainData.uniformscale; // mapchunksize = 241
+      meshFilter.transform.localScale = Vector3.one * FindObjectOfType<MapGenerator>().terrainData.uniformscale; // mapchunksize
    }
 }
