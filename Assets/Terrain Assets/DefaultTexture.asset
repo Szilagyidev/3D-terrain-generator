@@ -48,5 +48,5 @@ MonoBehaviour:
     tint: {r: 1, g: 0.8537736, b: 0.9704261, a: 0}
     tintStrength: 0.308
     startHeight: 0.807
-    blendStrength: 0.462
+    blendStrength: 0.504
     textureScale: 780.8

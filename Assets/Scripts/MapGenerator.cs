@@ -137,13 +137,22 @@ public class MapGenerator : MonoBehaviour
     MapData GenerateMapDataForDiamond(){
             float[,] diamondsquareMap = DiamondSquareAlgorithm.GenerateDiamondSquareMap(mapChunkSize, mapChunkSize, diamondData.roughness, diamondData.diamondseed);
 
+            if(terrainDiamondData.useFalloff){
+
+                 if(fallOffMap == null){
+                    fallOffMap = FalloffGenerator.GenerateFalloffMap(mapChunkSize);
+                }
+
                 for (int y = 0; y < mapChunkSize; y++)
                 {
                     for (int x = 0; x < mapChunkSize; x++)
                     {
-                       // falloffMap
+                        if(terrainDiamondData.useFalloff){
+                            //diamondsquareMap[x,y] = Mathf.Clamp01(diamondsquareMap[x,y] - fallOffMap[x,y]);
+                        }
                     }
                 }
+            }
             textureData.UpdateMeshHeights(terrainMaterial, terrainDiamondData.minHeight, terrainDiamondData.maxHeight / diamondData.colourDivider);
             return new MapData(diamondsquareMap);
         }
@@ -151,12 +160,21 @@ public class MapGenerator : MonoBehaviour
     MapData GenerateMapDataForWolrey(){
             float[,] worleyMap = WorleyNoise.GenerateWorleyMap(mapChunkSize, mapChunkSize, worleyData.points, worleyData.distanceBetweenPoints);
 
-            for (int y = 0; y < mapChunkSize; y++)
-            {
-                for (int x = 0; x < mapChunkSize; x++)
-                {
-                    // falloffMap
+             if(terrainWorleyData.useFalloff){
+
+                 if(fallOffMap == null){
+                    fallOffMap = FalloffGenerator.GenerateFalloffMap(mapChunkSize);
                 }
+
+                for (int y = 0; y < mapChunkSize; y++)
+                {
+                    for (int x = 0; x < mapChunkSize; x++)
+                    {
+                       if(terrainWorleyData.useFalloff){
+                            //worleyMap[x,y] = Mathf.Clamp01(worleyMap[x,y] - fallOffMap[x,y]);
+                        }
+                    }
+            }
             }
             textureData.UpdateMeshHeights(terrainMaterial, terrainWorleyData.minHeight, terrainWorleyData.maxHeight / worleyData.colourDivider);
             return new MapData(worleyMap);

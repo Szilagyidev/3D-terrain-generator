@@ -8,6 +8,7 @@ public class TerrainDiamondData : UpdatebleData
   public float meshHeightMultiplier;
   public int uniformscale = 128;
   public AnimationCurve meshHeightCurve;
+  public bool useFalloff;
 
   public float minHeight{
         get{
