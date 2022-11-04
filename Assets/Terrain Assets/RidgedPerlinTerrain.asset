@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: RidgedPerlinTerrain
   m_EditorClassIdentifier: 
   autoUpdate: 1
-  uniformscale: 128
+  uniformscale: 125
   meshHeightMultiplier: 91.02
   meshHeightCurve:
     serializedVersion: 2
