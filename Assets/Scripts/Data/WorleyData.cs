@@ -6,16 +6,19 @@ using UnityEngine;
 public class WorleyData : UpdatebleData
 {
     public int points;
-    [Range(0.0f,0.1f)]
+    [Range(0.0f, 0.1f)]
     public float colourDivider;
-    [Range(0,6)]
+    [Range(0, 6)]
     public int distanceBetweenPoints;
 
-        protected override void OnValidate(){
-        if(points < 1){
+    protected override void OnValidate()
+    {
+        if (points < 1)
+        {
             points = 1;
         }
-        if(distanceBetweenPoints < 0){
+        if (distanceBetweenPoints < 0)
+        {
             distanceBetweenPoints = 0;
         }
         base.OnValidate();

@@ -8,17 +8,21 @@ public class UpdatebleData : ScriptableObject
     public event System.Action OnValuesUpdated;
     public bool autoUpdate;
 
-    protected virtual void OnValidate(){
-        if(autoUpdate){
+    protected virtual void OnValidate()
+    {
+        if (autoUpdate)
+        {
             UnityEditor.EditorApplication.update += NotifyOfUpdatedValues;
         }
     }
 
-    public void NotifyOfUpdatedValues(){
+    public void NotifyOfUpdatedValues()
+    {
         UnityEditor.EditorApplication.update -= NotifyOfUpdatedValues;
-        if(OnValuesUpdated != null){
+        if (OnValuesUpdated != null)
+        {
             OnValuesUpdated();
         }
-    } 
+    }
 
 }

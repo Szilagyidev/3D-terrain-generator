@@ -24,7 +24,7 @@ public class EndlessTerrain : MonoBehaviour
 
     void Start()
     {
-        mapGenerator = FindObjectOfType<MapGenerator> ();
+        mapGenerator = FindObjectOfType<MapGenerator>();
 
         maxViewDst = detailLevels[detailLevels.Length - 1].visibleDstThreshold;
         chunkSize = MapGenerator.mapChunkSize - 1; //241 - 1
@@ -36,7 +36,7 @@ public class EndlessTerrain : MonoBehaviour
 
     void Update()
     {
-        viewerPosition = new Vector2(viewer.position.x, viewer.position.z)  / mapGenerator.terrainData.uniformscale;
+        viewerPosition = new Vector2(viewer.position.x, viewer.position.z) / mapGenerator.terrainData.uniformscale;
 
         if ((viewerPositionOld - viewerPosition).sqrMagnitude > sqrviewerMoveThresholdForChunkUpdate)
         {
@@ -97,7 +97,7 @@ public class EndlessTerrain : MonoBehaviour
             this.detailLevels = detailLevels;
 
             position = coord * size;
-            bounds = new Bounds(position, Vector2.one * size) ;
+            bounds = new Bounds(position, Vector2.one * size);
             Vector3 positionV3 = new Vector3(position.x, 0, position.y);
 
             meshObject = new GameObject("Terrain Chunk");

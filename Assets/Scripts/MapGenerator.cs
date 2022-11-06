@@ -191,7 +191,7 @@ public class MapGenerator : MonoBehaviour
     MapData GenerateMapDataForPerlin(Vector2 centre)
     {
         float[,] noiseMap = Noise.GenerateNoiseMap(mapChunkSize, mapChunkSize, noiseData.perlinseed, noiseData.noiseScale,
-        noiseData.octaves, noiseData.presistance, noiseData.lacunarity,centre + noiseData.offset, normalizeMode);
+        noiseData.octaves, noiseData.presistance, noiseData.lacunarity, centre + noiseData.offset, normalizeMode);
 
         if (terrainData.useFalloff)
         {
