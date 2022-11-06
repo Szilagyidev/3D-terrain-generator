@@ -20,7 +20,7 @@ public class EndlessTerrain : MonoBehaviour
     int chunkVisibleInViewDst;
 
     Dictionary<Vector2, TerrainChunk> terrainChunkDictionary = new Dictionary<Vector2, TerrainChunk>();
-    List<TerrainChunk> terrainChunksVisibleLastUpdate = new List<TerrainChunk>();
+    static List<TerrainChunk> terrainChunksVisibleLastUpdate = new List<TerrainChunk>();
 
     void Start()
     {
@@ -35,7 +35,7 @@ public class EndlessTerrain : MonoBehaviour
 
     void Update()
     {
-        viewerPosition = new Vector2(viewer.position.x, viewer.position.z);
+        viewerPosition = new Vector2(viewer.position.x, viewer.position.z)  / mapGenerator.terrainData.uniformscale;
 
         if ((viewerPositionOld - viewerPosition).sqrMagnitude > sqrviewerMoveThresholdForChunkUpdate)
         {
@@ -66,12 +66,6 @@ public class EndlessTerrain : MonoBehaviour
                 if (terrainChunkDictionary.ContainsKey(viewedChunkCord))
                 {
                     terrainChunkDictionary[viewedChunkCord].UpdateTerrainChunk();
-
-                    if (terrainChunkDictionary[viewedChunkCord].IsVisible())
-                    {
-                        terrainChunksVisibleLastUpdate.Add(terrainChunkDictionary[viewedChunkCord]);
-                    }
-
                 }
                 else
                 {
@@ -168,6 +162,8 @@ public class EndlessTerrain : MonoBehaviour
                             lodMesh.RequestMesh(mapData);
                         }
                     }
+
+                    terrainChunksVisibleLastUpdate.Add(this);
                 }
                 SetVisible(visible);
             }

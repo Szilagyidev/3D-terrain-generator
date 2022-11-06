@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PerlinTerrain
   m_EditorClassIdentifier: 
   autoUpdate: 1
-  uniformscale: 117.8
+  uniformscale: 241
   meshHeightMultiplier: 32
   meshHeightCurve:
     serializedVersion: 2
@@ -37,8 +37,8 @@ MonoBehaviour:
       inWeight: 0.2092366
       outWeight: 0.09030049
     - serializedVersion: 3
-      time: 1
-      value: 1
+      time: 1.001248
+      value: 1.0182143
       inSlope: 2
       outSlope: 2
       tangentMode: 0

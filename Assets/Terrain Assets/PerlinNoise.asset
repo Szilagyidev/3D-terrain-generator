@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: PerlinNoise
   m_EditorClassIdentifier: 
   autoUpdate: 1
-  noiseScale: 44.08
+  noiseScale: 58.44
   octaves: 6
   presistance: 0.476
   lacunarity: 2
   perlinseed: 0
-  offset: {x: 5.1, y: 0}
+  offset: {x: 0, y: 0}

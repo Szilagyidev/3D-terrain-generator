@@ -10,6 +10,8 @@ public class MapGenerator : MonoBehaviour
     public enum DrawMode { NoiseMap, Mesh, FalloffMap };
     public DrawMode drawMode;
 
+    public Noise.NormalizeMode normalizeMode;
+
     public TerrainData terrainData;
     public TerrainWorleyData terrainWorleyData;
     public TerrainDiamondData terrainDiamondData;
@@ -189,7 +191,7 @@ public class MapGenerator : MonoBehaviour
     MapData GenerateMapDataForPerlin(Vector2 centre)
     {
         float[,] noiseMap = Noise.GenerateNoiseMap(mapChunkSize, mapChunkSize, noiseData.perlinseed, noiseData.noiseScale,
-        noiseData.octaves, noiseData.presistance, noiseData.lacunarity,centre + noiseData.offset);
+        noiseData.octaves, noiseData.presistance, noiseData.lacunarity,centre + noiseData.offset, normalizeMode);
 
         if (terrainData.useFalloff)
         {

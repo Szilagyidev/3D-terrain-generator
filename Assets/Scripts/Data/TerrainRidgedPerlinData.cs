@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu()]
 public class TerrainRidgedPerlinData : UpdatebleData
 {
-    public int uniformscale = 128;
+    public float uniformscale = 2.5f;
     public float meshHeightMultiplier;
     public AnimationCurve meshHeightCurve;
     public bool useFalloff;

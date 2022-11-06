@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: WorleyTerrain
   m_EditorClassIdentifier: 
   autoUpdate: 1
+  uniformscale: 241
   meshHeightMultiplier: 1.06
-  uniformscale: 128
   meshHeightCurve:
     serializedVersion: 2
     m_Curve:

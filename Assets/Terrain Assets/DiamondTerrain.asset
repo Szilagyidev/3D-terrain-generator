@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: DiamondTerrain
   m_EditorClassIdentifier: 
   autoUpdate: 1
+  uniformscale: 241
   meshHeightMultiplier: 36.41
-  uniformscale: 128
   meshHeightCurve:
     serializedVersion: 2
     m_Curve:

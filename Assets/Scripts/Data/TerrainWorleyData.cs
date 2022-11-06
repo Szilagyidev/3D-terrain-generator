@@ -5,8 +5,8 @@ using UnityEngine;
 [CreateAssetMenu()]
 public class TerrainWorleyData : UpdatebleData
 {
+    public float uniformscale = 2.5f;
     public float meshHeightMultiplier;
-    public int uniformscale = 128;
     public AnimationCurve meshHeightCurve;
     public bool useFalloff;
 
