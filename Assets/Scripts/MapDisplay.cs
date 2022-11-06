@@ -9,7 +9,7 @@ public class MapDisplay : MonoBehaviour
 
    public void DrawTexture(Texture2D texture){
       textureRenderer.sharedMaterial.mainTexture = texture;
-      textureRenderer.transform.localScale = Vector3.one * FindObjectOfType<MapGenerator>().terrainData.uniformscale*24; // vmiért ez kisebb
+      textureRenderer.transform.localScale = Vector3.one * FindObjectOfType<MapGenerator>().terrainData.uniformscale; // vmiért ez kisebb
 
       textureRenderer.gameObject.SetActive (true);
 	   meshFilter.gameObject.SetActive (false);

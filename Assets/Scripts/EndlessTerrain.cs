@@ -24,10 +24,11 @@ public class EndlessTerrain : MonoBehaviour
 
     void Start()
     {
-        mapGenerator = FindObjectOfType<MapGenerator>();
+        mapGenerator = FindObjectOfType<MapGenerator> ();
 
         maxViewDst = detailLevels[detailLevels.Length - 1].visibleDstThreshold;
         chunkSize = MapGenerator.mapChunkSize - 1; //241 - 1
+        Debug.Log(chunkSize);
         chunkVisibleInViewDst = Mathf.RoundToInt(maxViewDst / chunkSize);
 
         UpdateVisibleChunks();
