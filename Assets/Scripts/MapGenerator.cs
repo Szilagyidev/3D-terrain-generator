@@ -43,7 +43,7 @@ public class MapGenerator : MonoBehaviour
         textureData.UpdateMeshHeights(terrainMaterial, terrainWorleyData.minHeight, terrainWorleyData.maxHeight / worleyData.colourDivider);
     }
 
-    [System.NonSerialized]
+    //[System.NonSerialized]
     public string currentNoise = "Perlin";
 
     void OnValuesUpdated()
@@ -142,7 +142,7 @@ public class MapGenerator : MonoBehaviour
 
     void MapDataThread(Vector2 centre, Action<MapData> callback)
     {
-        MapData mapData = GenerateMapDataForPerlin(centre); // csak perlinre van
+        MapData mapData = GenerateMapDataForPerlin(centre);
         MapData mapDataRidged = GenerateMapDataForRidgedPerlin(centre);
         lock (mapDataThreadInfoQueue)
         {
@@ -163,11 +163,11 @@ public class MapGenerator : MonoBehaviour
 
     void MeshDataThread(MapData mapData, int lod, Action<MeshData> callback)
     {
-        MeshData meshData = MeshGenerator.GenerateTerrainMeshForPerlin(mapData.heightMap, terrainData.meshHeightMultiplier, terrainData.meshHeightCurve, lod); // // csak perlinre van
+        MeshData meshData = MeshGenerator.GenerateTerrainMeshForPerlin(mapData.heightMap, terrainData.meshHeightMultiplier, terrainData.meshHeightCurve, lod);
         MeshData meshDataRidged = MeshGenerator.GenerateTerrainMeshForPerlin(mapData.heightMap, terrainRidgedPerlin.meshHeightMultiplier, terrainRidgedPerlin.meshHeightCurve, lod);
         lock (meshDataThreadInfoQueue)
         {
-           if(currentNoise == "Perlin" ) {meshDataThreadInfoQueue.Enqueue(new MapThreadInfo<MeshData>(callback, meshData));}
+            if(currentNoise == "Perlin" ) {meshDataThreadInfoQueue.Enqueue(new MapThreadInfo<MeshData>(callback, meshData));}
             if(currentNoise == "RidgedPerlin") {meshDataThreadInfoQueue.Enqueue(new MapThreadInfo<MeshData>(callback, meshDataRidged));}
         }
     }
