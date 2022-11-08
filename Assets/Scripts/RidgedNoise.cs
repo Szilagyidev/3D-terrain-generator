@@ -4,18 +4,26 @@ using UnityEngine;
 
 public static class RidgedNoise
 {
-    public static float[,] GenerateRidgedNoiseMap(int mapWidth, int mapHeight, int seed, float scale, int octaves, float presistance, float lacunarity, Vector2 offset, float inverton)
+    public enum NormalizeMode { Local, Global };
+    public static float[,] GenerateRidgedNoiseMap(int mapWidth, int mapHeight, int seed, float scale, int octaves, float presistance, float lacunarity, Vector2 offset, float inverton, NormalizeMode normalizeMode)
     {
         float[,] noiseMap = new float[mapWidth, mapHeight];
 
         System.Random prng = new System.Random(seed);
         Vector2[] octaveOffsets = new Vector2[octaves];
 
+        float maxPossibleHeight = 0;
+        float amplitude = 1;
+        float frequency = 1;
+
         for (int i = 0; i < octaves; i++)
         {
             float offsetX = prng.Next(-100000, 100000) + offset.x;
             float offsetY = prng.Next(-100000, 100000) + offset.y;
             octaveOffsets[i] = new Vector2(offsetX, offsetY);
+
+            maxPossibleHeight += amplitude;
+            amplitude *= presistance;
         }
 
         if (scale <= 0)
@@ -33,8 +41,8 @@ public static class RidgedNoise
         {
             for (int x = 0; x < mapWidth; x++)
             {
-                float amplitude = 1;
-                float frequency = 1;
+                amplitude = 1;
+                frequency = 1;
                 float noiseHeight = 0;
 
                 for (int i = 0; i < octaves; i++)
@@ -66,7 +74,15 @@ public static class RidgedNoise
         {
             for (int x = 0; x < mapWidth; x++)
             {
-                noiseMap[x, y] = Mathf.InverseLerp(minNoiseHeight, maxNoiseHeight, noiseMap[x, y]);
+                if (normalizeMode == NormalizeMode.Local)
+                {
+                    noiseMap[x, y] = Mathf.InverseLerp(minNoiseHeight, maxNoiseHeight, noiseMap[x, y]);
+                }
+                else
+                {
+                    float normalizedHeight = (noiseMap[x, y] + 1) / (maxPossibleHeight);
+                    noiseMap[x, y] = Mathf.Clamp(normalizedHeight, 0, int.MaxValue);
+                }
             }
         }
 

@@ -11,6 +11,7 @@ public class MapGenerator : MonoBehaviour
     public DrawMode drawMode;
 
     public Noise.NormalizeMode normalizeMode;
+    public RidgedNoise.NormalizeMode ridgedNormalizeMode;
 
     public TerrainData terrainData;
     public TerrainWorleyData terrainWorleyData;
@@ -43,7 +44,7 @@ public class MapGenerator : MonoBehaviour
     }
 
     [System.NonSerialized]
-    public string currentNoise;
+    public string currentNoise = "Perlin";
 
     void OnValuesUpdated()
     {
@@ -83,7 +84,7 @@ public class MapGenerator : MonoBehaviour
     public void DrawMapInEditorForRidgedPerlin()
     {
         textureData.UpdateMeshHeights(terrainMaterial, terrainRidgedPerlin.minHeight, terrainRidgedPerlin.maxHeight);
-        MapData mapData = GenerateMapDataForRidgedPerlin();
+        MapData mapData = GenerateMapDataForRidgedPerlin(Vector2.zero);
         MapDisplay display = FindObjectOfType<MapDisplay>();
         if (drawMode == DrawMode.NoiseMap)
         {
@@ -142,9 +143,11 @@ public class MapGenerator : MonoBehaviour
     void MapDataThread(Vector2 centre, Action<MapData> callback)
     {
         MapData mapData = GenerateMapDataForPerlin(centre); // csak perlinre van
+        MapData mapDataRidged = GenerateMapDataForRidgedPerlin(centre);
         lock (mapDataThreadInfoQueue)
         {
-            mapDataThreadInfoQueue.Enqueue(new MapThreadInfo<MapData>(callback, mapData));
+            if(currentNoise == "Perlin" ) {mapDataThreadInfoQueue.Enqueue(new MapThreadInfo<MapData>(callback, mapData));}
+            if (currentNoise == "RidgedPerlin") {mapDataThreadInfoQueue.Enqueue(new MapThreadInfo<MapData>(callback, mapDataRidged));}
         }
     }
 
@@ -161,9 +164,11 @@ public class MapGenerator : MonoBehaviour
     void MeshDataThread(MapData mapData, int lod, Action<MeshData> callback)
     {
         MeshData meshData = MeshGenerator.GenerateTerrainMeshForPerlin(mapData.heightMap, terrainData.meshHeightMultiplier, terrainData.meshHeightCurve, lod); // // csak perlinre van
+        MeshData meshDataRidged = MeshGenerator.GenerateTerrainMeshForPerlin(mapData.heightMap, terrainRidgedPerlin.meshHeightMultiplier, terrainRidgedPerlin.meshHeightCurve, lod);
         lock (meshDataThreadInfoQueue)
         {
-            meshDataThreadInfoQueue.Enqueue(new MapThreadInfo<MeshData>(callback, meshData));
+           if(currentNoise == "Perlin" ) {meshDataThreadInfoQueue.Enqueue(new MapThreadInfo<MeshData>(callback, meshData));}
+            if(currentNoise == "RidgedPerlin") {meshDataThreadInfoQueue.Enqueue(new MapThreadInfo<MeshData>(callback, meshDataRidged));}
         }
     }
 
@@ -215,10 +220,10 @@ public class MapGenerator : MonoBehaviour
         return new MapData(noiseMap);
     }
 
-    MapData GenerateMapDataForRidgedPerlin()
+    MapData GenerateMapDataForRidgedPerlin(Vector2 centre)
     {
         float[,] ridgednoiseMap = RidgedNoise.GenerateRidgedNoiseMap(mapChunkSize, mapChunkSize, ridgedPerlinData.perlinseed, ridgedPerlinData.noiseScale,
-        ridgedPerlinData.octaves, ridgedPerlinData.presistance, ridgedPerlinData.lacunarity, ridgedPerlinData.offset, ridgedPerlinData.inverton);
+        ridgedPerlinData.octaves, ridgedPerlinData.presistance, ridgedPerlinData.lacunarity, centre + ridgedPerlinData.offset, ridgedPerlinData.inverton, ridgedNormalizeMode);
 
         if (terrainRidgedPerlin.useFalloff)
         {

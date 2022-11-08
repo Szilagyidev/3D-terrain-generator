@@ -18,5 +18,5 @@ MonoBehaviour:
   presistance: 0.479
   lacunarity: 1.9
   perlinseed: 2
-  offset: {x: 0.36, y: 0}
+  offset: {x: 0, y: 0}
   inverton: 1
