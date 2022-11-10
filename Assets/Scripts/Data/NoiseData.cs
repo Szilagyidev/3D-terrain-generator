@@ -13,6 +13,8 @@ public class NoiseData : UpdatebleData
     public int perlinseed;
     public Vector2 offset;
 
+    #if UNITY_EDITOR
+
     protected override void OnValidate()
     {
         if (lacunarity < 1)
@@ -26,5 +28,7 @@ public class NoiseData : UpdatebleData
 
         base.OnValidate();
     }
+
+    #endif
 
 }

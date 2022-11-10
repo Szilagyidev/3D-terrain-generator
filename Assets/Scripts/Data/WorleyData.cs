@@ -11,6 +11,8 @@ public class WorleyData : UpdatebleData
     [Range(0, 6)]
     public int distanceBetweenPoints;
 
+    #if UNITY_EDITOR
+
     protected override void OnValidate()
     {
         if (points < 1)
@@ -23,4 +25,6 @@ public class WorleyData : UpdatebleData
         }
         base.OnValidate();
     }
+
+    #endif
 }

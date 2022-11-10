@@ -27,7 +27,7 @@ public class EndlessTerrain : MonoBehaviour
         mapGenerator = FindObjectOfType<MapGenerator>();
 
         maxViewDst = detailLevels[detailLevels.Length - 1].visibleDstThreshold;
-        chunkSize = MapGenerator.mapChunkSize - 1; //241 - 1
+        chunkSize = mapGenerator.mapChunkSize - 1; //241 - 1
         Debug.Log(chunkSize);
         chunkVisibleInViewDst = Mathf.RoundToInt(maxViewDst / chunkSize);
 
@@ -214,6 +214,7 @@ public class EndlessTerrain : MonoBehaviour
     [System.Serializable]
     public struct LODInfo
     {
+        [Range(0, MeshGenerator.numSupportedLODs - 1)]
         public int lod;
         public float visibleDstThreshold;
     }

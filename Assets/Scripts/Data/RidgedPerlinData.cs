@@ -14,6 +14,8 @@ public class RidgedPerlinData : UpdatebleData
     public Vector2 offset;
     public float inverton;
 
+    #if UNITY_EDITOR
+
     protected override void OnValidate()
     {
         if (lacunarity < 1)
@@ -27,4 +29,5 @@ public class RidgedPerlinData : UpdatebleData
 
         base.OnValidate();
     }
+    #endif
 }

@@ -26,8 +26,13 @@ public class MapGenerator : MonoBehaviour
     public TextureData textureData;
     public Material terrainMaterial;
 
-    public const int mapChunkSize = 241;  // a level of detailre jó a 241. a diamond square az 256 vagy 128
-    [Range(0, 6)]
+    [Range(0, MeshGenerator.numSupportedChunkSizes - 1)]
+    public int chunkSizeIndex;
+
+    [Range(0, MeshGenerator.numSupportedChunkSizesforDiamond - 1)]
+    public int chunkSizeIndexforDiamond;
+
+    [Range(0, MeshGenerator.numSupportedLODs - 1)]
     public int editorPreviewLOD;
     public bool autoUpdate;
     public float[,] fallOffMap;
@@ -37,6 +42,7 @@ public class MapGenerator : MonoBehaviour
 
     void Awake()
     {
+        textureData.ApplyToMaterial(terrainMaterial);
         textureData.UpdateMeshHeights(terrainMaterial, terrainData.minHeight, terrainData.maxHeight);
         textureData.UpdateMeshHeights(terrainMaterial, terrainRidgedPerlin.minHeight, terrainRidgedPerlin.maxHeight);
         textureData.UpdateMeshHeights(terrainMaterial, terrainDiamondData.minHeight, terrainDiamondData.maxHeight / diamondData.colourDivider);
@@ -60,6 +66,18 @@ public class MapGenerator : MonoBehaviour
     void OnTextureValuesUpdated()
     {
         textureData.ApplyToMaterial(terrainMaterial);
+    }
+
+    public int mapChunkSize{
+        get {
+            return MeshGenerator.supportedChunkSizes[chunkSizeIndex] - 1;
+        }
+    }
+
+    public int mapChunkSizeDiamond{
+        get {
+            return MeshGenerator.supportedChunkSizesforDiamond[chunkSizeIndexforDiamond];
+        }
     }
 
     public void DrawMapInEditorForPerlin()
@@ -195,7 +213,7 @@ public class MapGenerator : MonoBehaviour
 
     MapData GenerateMapDataForPerlin(Vector2 centre)
     {
-        float[,] noiseMap = Noise.GenerateNoiseMap(mapChunkSize, mapChunkSize, noiseData.perlinseed, noiseData.noiseScale,
+        float[,] noiseMap = Noise.GenerateNoiseMap(mapChunkSize + 2, mapChunkSize + 2, noiseData.perlinseed, noiseData.noiseScale,
         noiseData.octaves, noiseData.presistance, noiseData.lacunarity, centre + noiseData.offset, normalizeMode);
 
         if (terrainData.useFalloff)
@@ -203,12 +221,12 @@ public class MapGenerator : MonoBehaviour
 
             if (fallOffMap == null)
             {
-                fallOffMap = FalloffGenerator.GenerateFalloffMap(mapChunkSize);
+                fallOffMap = FalloffGenerator.GenerateFalloffMap(mapChunkSize + 2);
             }
 
-            for (int y = 0; y < mapChunkSize; y++)
+            for (int y = 0; y < mapChunkSize + 2; y++)
             {
-                for (int x = 0; x < mapChunkSize; x++)
+                for (int x = 0; x < mapChunkSize + 2; x++)
                 {
                     if (terrainData.useFalloff)
                     {
@@ -222,7 +240,7 @@ public class MapGenerator : MonoBehaviour
 
     MapData GenerateMapDataForRidgedPerlin(Vector2 centre)
     {
-        float[,] ridgednoiseMap = RidgedNoise.GenerateRidgedNoiseMap(mapChunkSize, mapChunkSize, ridgedPerlinData.perlinseed, ridgedPerlinData.noiseScale,
+        float[,] ridgednoiseMap = RidgedNoise.GenerateRidgedNoiseMap(mapChunkSize + 2, mapChunkSize + 2, ridgedPerlinData.perlinseed, ridgedPerlinData.noiseScale,
         ridgedPerlinData.octaves, ridgedPerlinData.presistance, ridgedPerlinData.lacunarity, centre + ridgedPerlinData.offset, ridgedPerlinData.inverton, ridgedNormalizeMode);
 
         if (terrainRidgedPerlin.useFalloff)
@@ -230,12 +248,12 @@ public class MapGenerator : MonoBehaviour
 
             if (fallOffMap == null)
             {
-                fallOffMap = FalloffGenerator.GenerateFalloffMap(mapChunkSize);
+                fallOffMap = FalloffGenerator.GenerateFalloffMap(mapChunkSize + 2);
             }
 
-            for (int y = 0; y < mapChunkSize; y++)
+            for (int y = 0; y < mapChunkSize + 2; y++)
             {
-                for (int x = 0; x < mapChunkSize; x++)
+                for (int x = 0; x < mapChunkSize + 2; x++)
                 {
                     if (terrainRidgedPerlin.useFalloff)
                     {
@@ -249,19 +267,19 @@ public class MapGenerator : MonoBehaviour
 
     MapData GenerateMapDataForDiamond()
     {
-        float[,] diamondsquareMap = DiamondSquareAlgorithm.GenerateDiamondSquareMap(mapChunkSize + 15, mapChunkSize + 15, diamondData.roughness, diamondData.diamondseed);
+        float[,] diamondsquareMap = DiamondSquareAlgorithm.GenerateDiamondSquareMap(mapChunkSizeDiamond, mapChunkSizeDiamond, diamondData.roughness, diamondData.diamondseed);
 
         if (terrainDiamondData.useFalloff)
         {
 
             if (fallOffMap == null)
             {
-                fallOffMap = FalloffGenerator.GenerateFalloffMap(mapChunkSize);
+                fallOffMap = FalloffGenerator.GenerateFalloffMap(mapChunkSizeDiamond);
             }
 
-            for (int y = 0; y < mapChunkSize; y++)
+            for (int y = 0; y < mapChunkSizeDiamond; y++)
             {
-                for (int x = 0; x < mapChunkSize; x++)
+                for (int x = 0; x < mapChunkSizeDiamond; x++)
                 {
                     if (terrainDiamondData.useFalloff)
                     {
