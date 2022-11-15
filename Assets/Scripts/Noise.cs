@@ -62,7 +62,7 @@ public static class Noise
                 {
                     maxLocalNoiseHeight = noiseHeight;
                 }
-                else if (noiseHeight < minLocalNoiseHeight)
+                if (noiseHeight < minLocalNoiseHeight)
                 {
                     minLocalNoiseHeight = noiseHeight;
                 }
