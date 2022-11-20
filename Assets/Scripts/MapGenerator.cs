@@ -39,7 +39,7 @@ public class MapGenerator : MonoBehaviour
 
     Queue<MapThreadInfo<MapData>> mapDataThreadInfoQueue = new Queue<MapThreadInfo<MapData>>();
     Queue<MapThreadInfo<MeshData>> meshDataThreadInfoQueue = new Queue<MapThreadInfo<MeshData>>();
-
+    
     void Awake()
     {
         textureData.ApplyToMaterial(terrainMaterial);
@@ -56,9 +56,9 @@ public class MapGenerator : MonoBehaviour
     {
         if (!Application.isPlaying)
         {
-            if (currentNoise == "Perlin") { DrawMapInEditorForPerlin(); }
+            if (currentNoise == "Perlin") { DrawMapInEditorForPerlin();}
             if (currentNoise == "Diamond") { DrawMapInEditorForDiamond(); }
-            if (currentNoise == "RidgedPerlin") { DrawMapInEditorForRidgedPerlin(); }
+            if (currentNoise == "RidgedPerlin") { DrawMapInEditorForRidgedPerlin();}
             if (currentNoise == "Worley") { DrawMapInEditorForWorley(); }
         }
     }
@@ -242,7 +242,6 @@ public class MapGenerator : MonoBehaviour
     {
         float[,] ridgednoiseMap = RidgedNoise.GenerateRidgedNoiseMap(mapChunkSize + 2, mapChunkSize + 2, ridgedPerlinData.perlinseed, ridgedPerlinData.noiseScale,
         ridgedPerlinData.octaves, ridgedPerlinData.presistance, ridgedPerlinData.lacunarity, centre + ridgedPerlinData.offset, ridgedPerlinData.inverton, ridgedNormalizeMode);
-
         if (terrainRidgedPerlin.useFalloff)
         {
 
@@ -316,7 +315,6 @@ public class MapGenerator : MonoBehaviour
         }
         return new MapData(worleyMap);
     }
-
     void OnValidate()
     {
         if (terrainData != null)

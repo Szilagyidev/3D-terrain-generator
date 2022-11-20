@@ -6,6 +6,7 @@ public class MapDisplay : MonoBehaviour
     public Renderer textureRenderer;
     public MeshFilter meshFilter;
     public MeshRenderer meshRenderer;
+    public MeshCollider meshCollider;
 
     public void DrawTexture(Texture2D texture)
     {
@@ -20,6 +21,7 @@ public class MapDisplay : MonoBehaviour
     {
         meshFilter.sharedMesh = meshData.CreateMesh();
         meshFilter.transform.localScale = Vector3.one * FindObjectOfType<MapGenerator>().terrainData.uniformscale;
+        meshCollider.sharedMesh = meshFilter.sharedMesh;
 
         textureRenderer.gameObject.SetActive(false);
         meshFilter.gameObject.SetActive(true);
