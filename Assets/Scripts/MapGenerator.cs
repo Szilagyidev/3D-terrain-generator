@@ -35,10 +35,12 @@ public class MapGenerator : MonoBehaviour
     [Range(0, MeshGenerator.numSupportedLODs - 1)]
     public int editorPreviewLOD;
     public bool autoUpdate;
+    public bool GenerateVegetation;
     public float[,] fallOffMap;
 
     Queue<MapThreadInfo<MapData>> mapDataThreadInfoQueue = new Queue<MapThreadInfo<MapData>>();
     Queue<MapThreadInfo<MeshData>> meshDataThreadInfoQueue = new Queue<MapThreadInfo<MeshData>>();
+    public GenerateAllVegetation generateAll;
     
     void Awake()
     {

@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   autoUpdate: 1
   points: 48
-  colourDivider: 0.0209
+  colourDivider: 0.0086
   distanceBetweenPoints: 1

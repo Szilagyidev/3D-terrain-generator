@@ -22,10 +22,10 @@ public class MapGeneratorEditor : Editor
             }
         }
 
-        if (GUILayout.Button("Generate Perlin")) { mapGen.DrawMapInEditorForPerlin(); mapGen.currentNoise = "Perlin"; }
-        if (GUILayout.Button("Generate RidgedPerlin")) { mapGen.DrawMapInEditorForRidgedPerlin(); mapGen.currentNoise = "RidgedPerlin";  }
-        if (GUILayout.Button("Generate Diamond")) { mapGen.DrawMapInEditorForDiamond(); mapGen.currentNoise = "Diamond"; }
-        if (GUILayout.Button("Generate Worley")) { mapGen.DrawMapInEditorForWorley(); mapGen.currentNoise = "Worley"; }
+        if (GUILayout.Button("Generate Perlin")) { mapGen.DrawMapInEditorForPerlin(); mapGen.currentNoise = "Perlin"; mapGen.generateAll.GenerateAll();}
+        if (GUILayout.Button("Generate RidgedPerlin")) { mapGen.DrawMapInEditorForRidgedPerlin(); mapGen.currentNoise = "RidgedPerlin"; mapGen.generateAll.GenerateAll(); }
+        if (GUILayout.Button("Generate Diamond")) { mapGen.DrawMapInEditorForDiamond(); mapGen.currentNoise = "Diamond"; mapGen.generateAll.GenerateAll();}
+        if (GUILayout.Button("Generate Worley")) { mapGen.DrawMapInEditorForWorley(); mapGen.currentNoise = "Worley"; mapGen.generateAll.GenerateAll();}
 
     }
 }
