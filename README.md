@@ -3,7 +3,8 @@
  
 Perlin Noise:
 </br>
- ![perlin](https://user-images.githubusercontent.com/105114750/203413494-4a2103b1-441b-400c-838a-937770f5d801.JPG)
+ ![perlin](https://user-images.githubusercontent.com/105114750/203413494-4a2103b1-441b-400c-838a-937770f5d801.JPG)![perlin](https://user-images.githubusercontent.com/105114750/203416046-76d10d30-0cca-462d-9183-7ce7cf30acbb.JPG)
+
 
 Ridged Perlin Noise:
 </br>
