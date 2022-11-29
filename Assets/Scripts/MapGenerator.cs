@@ -40,6 +40,7 @@ public class MapGenerator : MonoBehaviour
 
     Queue<MapThreadInfo<MapData>> mapDataThreadInfoQueue = new Queue<MapThreadInfo<MapData>>();
     Queue<MapThreadInfo<MeshData>> meshDataThreadInfoQueue = new Queue<MapThreadInfo<MeshData>>();
+
     public GenerateAllVegetation generateAll;
     
     void Awake()
@@ -166,7 +167,7 @@ public class MapGenerator : MonoBehaviour
         MapData mapDataRidged = GenerateMapDataForRidgedPerlin(centre);
         lock (mapDataThreadInfoQueue)
         {
-            if(currentNoise == "Perlin" ) {mapDataThreadInfoQueue.Enqueue(new MapThreadInfo<MapData>(callback, mapData));}
+            if(currentNoise == "Perlin" ) { mapDataThreadInfoQueue.Enqueue(new MapThreadInfo<MapData>(callback, mapData));}
             if (currentNoise == "RidgedPerlin") {mapDataThreadInfoQueue.Enqueue(new MapThreadInfo<MapData>(callback, mapDataRidged));}
         }
     }

@@ -14,8 +14,10 @@ public class GenerateAllVegetation : MonoBehaviour
 
     public MapGenerator mapGenerator;
 
-    public void GenerateAll(){
-        if(mapGenerator.GenerateVegetation == true){
+    public void GenerateAll()
+    {
+        if (mapGenerator.GenerateVegetation == true)
+        {
             tree.Generate();
             grass.Generate();
             grass2.Generate();
@@ -23,7 +25,9 @@ public class GenerateAllVegetation : MonoBehaviour
             flower.Generate();
             flower2.Generate();
             rock.Generate();
-        } else  {
+        }
+        else
+        {
             tree.Clear();
             grass.Clear();
             grass2.Clear();

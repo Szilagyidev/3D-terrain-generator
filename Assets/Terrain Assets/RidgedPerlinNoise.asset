@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: RidgedPerlinNoise
   m_EditorClassIdentifier: 
   autoUpdate: 1
-  noiseScale: 184
+  noiseScale: 117.04
   octaves: 5
   presistance: 0.414
   lacunarity: 2
   perlinseed: 2
   offset: {x: 0, y: 0}
-  inverton: 1
+  inverton: 0.9
