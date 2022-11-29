@@ -37,6 +37,4 @@ public class GenerateAllVegetation : MonoBehaviour
             rock.Clear();
         }
     }
-
-
 }

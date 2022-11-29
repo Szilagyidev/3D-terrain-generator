@@ -25,6 +25,8 @@ public class MapGenerator : MonoBehaviour
 
     public TextureData textureData;
     public Material terrainMaterial;
+    public GenerateAllVegetation generateAll;
+    public GenerateWater generateWater;
 
     [Range(0, MeshGenerator.numSupportedChunkSizes - 1)]
     public int chunkSizeIndex;
@@ -36,12 +38,11 @@ public class MapGenerator : MonoBehaviour
     public int editorPreviewLOD;
     public bool autoUpdate;
     public bool GenerateVegetation;
+    public bool GenerateWater;
     public float[,] fallOffMap;
 
     Queue<MapThreadInfo<MapData>> mapDataThreadInfoQueue = new Queue<MapThreadInfo<MapData>>();
     Queue<MapThreadInfo<MeshData>> meshDataThreadInfoQueue = new Queue<MapThreadInfo<MeshData>>();
-
-    public GenerateAllVegetation generateAll;
     
     void Awake()
     {
