@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 public class EndlessTerrain : MonoBehaviour
 {
@@ -18,9 +21,10 @@ public class EndlessTerrain : MonoBehaviour
     static MapGenerator mapGenerator;
     int chunkSize;
     int chunkVisibleInViewDst;
-
     Dictionary<Vector2, TerrainChunk> terrainChunkDictionary = new Dictionary<Vector2, TerrainChunk>();
     static List<TerrainChunk> terrainChunksVisibleLastUpdate = new List<TerrainChunk>();
+
+    [SerializeField] GameObject prefab;
 
     void Start()
     {
@@ -70,7 +74,7 @@ public class EndlessTerrain : MonoBehaviour
                 }
                 else
                 {
-                    terrainChunkDictionary.Add(viewedChunkCord, new TerrainChunk(viewedChunkCord, chunkSize, detailLevels, transform, mapMaterial));
+                    terrainChunkDictionary.Add(viewedChunkCord, new TerrainChunk(viewedChunkCord, chunkSize, detailLevels, transform, mapMaterial, prefab));
                 }
             }
         }
@@ -92,8 +96,9 @@ public class EndlessTerrain : MonoBehaviour
         bool mapDataReceived;
         int previousLODIndex = -1;
         public MeshCollider meshCollider;
+        GameObject waterPrefab;
 
-        public TerrainChunk(Vector2 coord, int size, LODInfo[] detailLevels, Transform parent, Material material)
+        public TerrainChunk(Vector2 coord, int size, LODInfo[] detailLevels, Transform parent, Material material, GameObject prefab)
         {
             this.detailLevels = detailLevels;
 
@@ -113,6 +118,11 @@ public class EndlessTerrain : MonoBehaviour
             meshCollider = meshObject.AddComponent<MeshCollider>();
 
             //mapGenerator.generateAll.GenerateAll();
+            Vector3 posForWater = new Vector3(mapGenerator.mapChunkSize / 4 + 0.5f, mapGenerator.mapChunkSize / 4 + 1, mapGenerator.mapChunkSize / 4 + 0.5f);
+            waterPrefab = Instantiate(prefab, positionV3 * mapGenerator.terrainData.uniformscale, Quaternion.identity);
+            waterPrefab.transform.position =  new Vector3(waterPrefab.transform.position.x, 10, waterPrefab.transform.position.z);
+            waterPrefab.transform.localScale = posForWater;
+            waterPrefab.transform.parent = parent;
 
             SetVisible(false);
 
@@ -178,6 +188,7 @@ public class EndlessTerrain : MonoBehaviour
         public void SetVisible(bool visible)
         {
             meshObject.SetActive(visible);
+            waterPrefab.SetActive(visible);
         }
 
         public bool IsVisible()
