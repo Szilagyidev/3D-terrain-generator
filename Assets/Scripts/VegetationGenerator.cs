@@ -29,7 +29,7 @@ public class VegetationGenerator : MonoBehaviour
 	public void Generate() { 
 		Clear();
 
-		for (int i = 0; i < density + (scale+scale); i++) {
+		for (int i = 0; i < density + (scale*10); i++) {
 			float sampleX = Random.Range(-mapGenerator.mapChunkSize - 50 - scale, mapGenerator.mapChunkSize + 50 + scale);
 			float sampleY = Random.Range(-mapGenerator.mapChunkSize - 50 - scale, mapGenerator.mapChunkSize + 50 + scale);
 			Vector3 rayStart = new Vector3(sampleX, maxHeight, sampleY);
