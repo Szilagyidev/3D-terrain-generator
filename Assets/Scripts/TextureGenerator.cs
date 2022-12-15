@@ -40,7 +40,7 @@ public static class TextureGenerator
         {
             for (int x = 0; x < width; x++)
             {
-                colorMap[y * width + x] = Color.Lerp(Color.black, Color.white, heightMap[x, y] / colourDivider); // nem pontosan 0-1 érték között mozog hanem 1.2..stb
+                colorMap[y * width + x] = Color.Lerp(Color.black, Color.white, heightMap[x, y] / colourDivider);
             }
         }
         return TextureFromColourMap(colorMap, width, height);

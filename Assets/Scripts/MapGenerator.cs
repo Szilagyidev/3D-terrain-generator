@@ -91,6 +91,8 @@ public class MapGenerator : MonoBehaviour
         MapDisplay display = FindObjectOfType<MapDisplay>();
         if (drawMode == DrawMode.NoiseMap)
         {
+            GenerateWater = false;
+            GenerateVegetation = false;
             display.DrawTexture(TextureGenerator.TextureFromHeightMap(mapData.heightMap));
         }
         else if (drawMode == DrawMode.Mesh)
@@ -99,8 +101,12 @@ public class MapGenerator : MonoBehaviour
         }
         else if (drawMode == DrawMode.FalloffMap)
         {
+            GenerateWater = false;
+            GenerateVegetation = false;
             display.DrawTexture(TextureGenerator.TextureFromHeightMap(FalloffGenerator.GenerateFalloffMap(mapChunkSize)));
         }
+        generateWater.GenerateWaterForTerrain();
+        generateAll.GenerateAll();
     }
 
     public void DrawMapInEditorForRidgedPerlin()
@@ -110,6 +116,8 @@ public class MapGenerator : MonoBehaviour
         MapDisplay display = FindObjectOfType<MapDisplay>();
         if (drawMode == DrawMode.NoiseMap)
         {
+            GenerateWater = false;
+            GenerateVegetation = false;
             display.DrawTexture(TextureGenerator.TextureFromHeightMap(mapData.heightMap));
         }
         else if (drawMode == DrawMode.Mesh)
@@ -118,8 +126,12 @@ public class MapGenerator : MonoBehaviour
         }
         else if (drawMode == DrawMode.FalloffMap)
         {
+            GenerateWater = false;
+            GenerateVegetation = false;
             display.DrawTexture(TextureGenerator.TextureFromHeightMap(FalloffGenerator.GenerateFalloffMap(mapChunkSize)));
         }
+        generateWater.GenerateWaterForTerrain();
+        generateAll.GenerateAll();
     }
 
     public void DrawMapInEditorForDiamond()
@@ -129,12 +141,16 @@ public class MapGenerator : MonoBehaviour
         MapDisplay display = FindObjectOfType<MapDisplay>();
         if (drawMode == DrawMode.NoiseMap)
         {
+            GenerateWater = false;
+            GenerateVegetation = false;
             display.DrawTexture(TextureGenerator.TextureFromHeightMapForDiamond(mapData.heightMap, diamondData.colourDivider * 5));
         }
         else if (drawMode == DrawMode.Mesh)
         {
             display.DrawMesh(MeshGenerator.GenerateTerrainMeshForDiamond(mapData.heightMap, terrainDiamondData.meshHeightMultiplier, editorPreviewLOD));
         }
+        generateWater.GenerateWaterForTerrain();
+        generateAll.GenerateAll();
     }
     public void DrawMapInEditorForWorley()
     {
@@ -143,13 +159,17 @@ public class MapGenerator : MonoBehaviour
         MapDisplay display = FindObjectOfType<MapDisplay>();
         if (drawMode == DrawMode.NoiseMap)
         {
+            GenerateWater = false;
+            GenerateVegetation = false;
             display.DrawTexture(TextureGenerator.TextureFromHeightMapForWorley(mapData.heightMap, worleyData.colourDivider * 5000));
         }
         else if (drawMode == DrawMode.Mesh)
         {
-            //GenerateForDiamond a név de ugyanaz
+            //GenerateForDiamond a név de ugyanazt csinálja
             display.DrawMesh(MeshGenerator.GenerateTerrainMeshForDiamond(mapData.heightMap, terrainWorleyData.meshHeightMultiplier, editorPreviewLOD));
         }
+        generateWater.GenerateWaterForTerrain();
+        generateAll.GenerateAll();
     }
 
     public void RequestMapData(Vector2 centre, Action<MapData> callback)
@@ -239,6 +259,8 @@ public class MapGenerator : MonoBehaviour
                 }
             }
         }
+        generateWater.posForWater = new Vector3(mapChunkSize / 4 + 0.5f, mapChunkSize / 4 + 0.5f, mapChunkSize / 4 + 0.5f);
+        generateWater.waterLevel = 10;
         return new MapData(noiseMap);
     }
 
@@ -265,6 +287,8 @@ public class MapGenerator : MonoBehaviour
                 }
             }
         }
+        generateWater.posForWater = new Vector3(mapChunkSize / 4 + 0.5f, mapChunkSize / 4 + 0.5f, mapChunkSize / 4 + 0.5f);
+        generateWater.waterLevel = 20;
         return new MapData(ridgednoiseMap);
     }
 
@@ -291,6 +315,8 @@ public class MapGenerator : MonoBehaviour
                 }
             }
         }
+        generateWater.posForWater = new Vector3(mapChunkSizeDiamond / 4 + 0.5f , mapChunkSizeDiamond / 4 + 0.5f, mapChunkSizeDiamond / 4 + 0.5f);
+        generateWater.waterLevel = 20;
         return new MapData(diamondsquareMap);
     }
 
@@ -317,6 +343,8 @@ public class MapGenerator : MonoBehaviour
                 }
             }
         }
+        generateWater.posForWater = new Vector3(mapChunkSize / 4 + 0.5f, mapChunkSize / 4 + 0.5f, mapChunkSize / 4 + 0.5f);
+        generateWater.waterLevel = 20;
         return new MapData(worleyMap);
     }
     void OnValidate()

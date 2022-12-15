@@ -7,6 +7,7 @@ using UnityEditor;
 
 public class VegetationGenerator : MonoBehaviour
 {
+	public MapGenerator mapGenerator;
     [SerializeField] GameObject prefab;
 
     [Header("Raycast Settings")]
@@ -16,22 +17,21 @@ public class VegetationGenerator : MonoBehaviour
 
     [SerializeField] float minHeight;
     [SerializeField] float maxHeight;
-    [SerializeField] Vector2 xRange;
-    [SerializeField] Vector2 zRange;
 
     [Header("Prefab Variation Settings")]
     [SerializeField, Range(0, 1)] float rotateTowardsNormal;
     [SerializeField] Vector2 rotationRange;
     [SerializeField] Vector3 minScale;
     [SerializeField] Vector3 maxScale;
+	[System.NonSerialized] public int scale = 1;
 
 #if UNITY_EDITOR
-	public void Generate() {
+	public void Generate() { 
 		Clear();
 
-		for (int i = 0; i < density; i++) {
-			float sampleX = Random.Range(xRange.x, xRange.y);
-			float sampleY = Random.Range(zRange.x, zRange.y);
+		for (int i = 0; i < density + (scale+scale); i++) {
+			float sampleX = Random.Range(-mapGenerator.mapChunkSize - 50 - scale, mapGenerator.mapChunkSize + 50 + scale);
+			float sampleY = Random.Range(-mapGenerator.mapChunkSize - 50 - scale, mapGenerator.mapChunkSize + 50 + scale);
 			Vector3 rayStart = new Vector3(sampleX, maxHeight, sampleY);
 
 			if (!Physics.Raycast(rayStart, Vector3.down, out RaycastHit hit, Mathf.Infinity))

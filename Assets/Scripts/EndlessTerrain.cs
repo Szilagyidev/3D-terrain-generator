@@ -23,9 +23,7 @@ public class EndlessTerrain : MonoBehaviour
     int chunkVisibleInViewDst;
     Dictionary<Vector2, TerrainChunk> terrainChunkDictionary = new Dictionary<Vector2, TerrainChunk>();
     static List<TerrainChunk> terrainChunksVisibleLastUpdate = new List<TerrainChunk>();
-
     [SerializeField] GameObject prefab;
-
     void Start()
     {
         mapGenerator = FindObjectOfType<MapGenerator>();
@@ -34,7 +32,6 @@ public class EndlessTerrain : MonoBehaviour
         chunkSize = mapGenerator.mapChunkSize - 1; //241 - 1
         chunkVisibleInViewDst = Mathf.RoundToInt(maxViewDst / chunkSize);
 
-        //mapGenerator.generateAll.GenerateAll();
         UpdateVisibleChunks();
     }
 
@@ -95,9 +92,8 @@ public class EndlessTerrain : MonoBehaviour
         MapData mapData;
         bool mapDataReceived;
         int previousLODIndex = -1;
-        public MeshCollider meshCollider;
+        MeshCollider meshCollider;
         GameObject waterPrefab;
-
         public TerrainChunk(Vector2 coord, int size, LODInfo[] detailLevels, Transform parent, Material material, GameObject prefab)
         {
             this.detailLevels = detailLevels;
@@ -116,13 +112,25 @@ public class EndlessTerrain : MonoBehaviour
             meshRenderer.transform.localScale = Vector3.one * mapGenerator.terrainData.uniformscale;
 
             meshCollider = meshObject.AddComponent<MeshCollider>();
+            meshCollider.sharedMesh = meshFilter.mesh;
 
-            //mapGenerator.generateAll.GenerateAll();
-            Vector3 posForWater = new Vector3(mapGenerator.mapChunkSize / 4 + 0.5f, mapGenerator.mapChunkSize / 4 + 1, mapGenerator.mapChunkSize / 4 + 0.5f);
-            waterPrefab = Instantiate(prefab, positionV3 * mapGenerator.terrainData.uniformscale, Quaternion.identity);
-            waterPrefab.transform.position =  new Vector3(waterPrefab.transform.position.x, 10, waterPrefab.transform.position.z);
-            waterPrefab.transform.localScale = posForWater;
-            waterPrefab.transform.parent = parent;
+            if(mapGenerator.GenerateWater == true){
+                Vector3 scaleForWater = new Vector3(mapGenerator.mapChunkSize / 4 + 0.5f, mapGenerator.mapChunkSize / 4 + 0.5f, mapGenerator.mapChunkSize / 4 + 0.5f);
+                waterPrefab = Instantiate(prefab, positionV3 * mapGenerator.terrainData.uniformscale, Quaternion.identity);
+                waterPrefab.transform.position =  new Vector3(waterPrefab.transform.position.x, 10, waterPrefab.transform.position.z);
+                waterPrefab.transform.localScale = scaleForWater;
+                waterPrefab.transform.parent = parent;
+            }
+
+            if(mapGenerator.GenerateVegetation == true){
+                mapGenerator.generateAll.tree.scale = mapGenerator.generateAll.scale;
+                mapGenerator.generateAll.grass.scale = mapGenerator.generateAll.scale;
+                mapGenerator.generateAll.grass2.scale = mapGenerator.generateAll.scale;
+                mapGenerator.generateAll.grass3.scale = mapGenerator.generateAll.scale;
+                mapGenerator.generateAll.flower.scale = mapGenerator.generateAll.scale;
+                mapGenerator.generateAll.flower2.scale = mapGenerator.generateAll.scale;
+                mapGenerator.generateAll.GenerateAll();
+            }
 
             SetVisible(false);
 
@@ -172,6 +180,7 @@ public class EndlessTerrain : MonoBehaviour
                         {
                             previousLODIndex = lodIndex;
                             meshFilter.mesh = lodMesh.mesh;
+                            meshCollider.sharedMesh = lodMesh.mesh;
                         }
                         else if (!lodMesh.hasRequestedMesh)
                         {
@@ -188,7 +197,7 @@ public class EndlessTerrain : MonoBehaviour
         public void SetVisible(bool visible)
         {
             meshObject.SetActive(visible);
-            waterPrefab.SetActive(visible);
+           if(mapGenerator.GenerateWater == true){waterPrefab.SetActive(visible);}
         }
 
         public bool IsVisible()
@@ -214,8 +223,8 @@ public class EndlessTerrain : MonoBehaviour
 
         void OnMeshDataRecieved(MeshData meshData)
         {
-            mesh = meshData.CreateMesh(); 
-
+            mesh = meshData.CreateMesh();
+            
             hasMesh = true;
 
             updateCallback();

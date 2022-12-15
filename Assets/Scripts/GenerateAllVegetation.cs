@@ -10,9 +10,8 @@ public class GenerateAllVegetation : MonoBehaviour
     public VegetationGenerator grass3;
     public VegetationGenerator flower;
     public VegetationGenerator flower2;
-    public VegetationGenerator rock;
-
     public MapGenerator mapGenerator;
+    public int scale;
 
     public void GenerateAll()
     {
@@ -24,7 +23,6 @@ public class GenerateAllVegetation : MonoBehaviour
             grass3.Generate();
             flower.Generate();
             flower2.Generate();
-            rock.Generate();
         }
         else
         {
@@ -34,7 +32,6 @@ public class GenerateAllVegetation : MonoBehaviour
             grass3.Clear();
             flower.Clear();
             flower2.Clear();
-            rock.Clear();
         }
     }
 }
