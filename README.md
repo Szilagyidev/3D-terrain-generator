@@ -11,7 +11,7 @@ Perlin Noise:
 Ridged Perlin Noise:
 </br>
  ![ridgedperlin](https://user-images.githubusercontent.com/105114750/203413541-83d095bf-ac76-4dec-93a5-d927d6e7ba86.JPG)
- ![ridgedperlinwitheverything](https://user-images.githubusercontent.com/105114750/207902038-db764799-8af0-426a-9e22-5165f5689220.JPG)
+ ![ridgedperlinwithvegetation](https://user-images.githubusercontent.com/105114750/207902403-6787db44-81df-41ce-9b35-731f93e11700.JPG)
 
 
 Diamond-square algorithm:
