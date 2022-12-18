@@ -33,6 +33,19 @@ public class EndlessTerrain : MonoBehaviour
         chunkVisibleInViewDst = Mathf.RoundToInt(maxViewDst / chunkSize);
 
         UpdateVisibleChunks();
+
+        if(mapGenerator.currentNoise =="Perlin"){mapGenerator.DrawMapInEditorForPerlin();}
+        if(mapGenerator.currentNoise =="RidgedPerlin"){mapGenerator.DrawMapInEditorForRidgedPerlin();}
+
+        if(mapGenerator.GenerateVegetation == true){
+            mapGenerator.generateAll.tree.scale = mapGenerator.generateAll.scale;
+            mapGenerator.generateAll.grass.scale = mapGenerator.generateAll.scale;
+            mapGenerator.generateAll.grass2.scale = mapGenerator.generateAll.scale;
+            mapGenerator.generateAll.grass3.scale = mapGenerator.generateAll.scale;
+            mapGenerator.generateAll.flower.scale = mapGenerator.generateAll.scale;
+            mapGenerator.generateAll.flower2.scale = mapGenerator.generateAll.scale;
+            mapGenerator.generateAll.GenerateAll();
+        }
     }
 
     void Update()
@@ -72,6 +85,7 @@ public class EndlessTerrain : MonoBehaviour
                 else
                 {
                     terrainChunkDictionary.Add(viewedChunkCord, new TerrainChunk(viewedChunkCord, chunkSize, detailLevels, transform, mapMaterial, prefab));
+                    mapGenerator.generateAll.scale += 200;
                 }
             }
         }
@@ -120,16 +134,6 @@ public class EndlessTerrain : MonoBehaviour
                 waterPrefab.transform.position =  new Vector3(waterPrefab.transform.position.x, 10, waterPrefab.transform.position.z);
                 waterPrefab.transform.localScale = scaleForWater;
                 waterPrefab.transform.parent = parent;
-            }
-
-            if(mapGenerator.GenerateVegetation == true){
-                mapGenerator.generateAll.tree.scale = mapGenerator.generateAll.scale;
-                mapGenerator.generateAll.grass.scale = mapGenerator.generateAll.scale;
-                mapGenerator.generateAll.grass2.scale = mapGenerator.generateAll.scale;
-                mapGenerator.generateAll.grass3.scale = mapGenerator.generateAll.scale;
-                mapGenerator.generateAll.flower.scale = mapGenerator.generateAll.scale;
-                mapGenerator.generateAll.flower2.scale = mapGenerator.generateAll.scale;
-                mapGenerator.generateAll.GenerateAll();
             }
 
             SetVisible(false);

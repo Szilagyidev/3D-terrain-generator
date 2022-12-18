@@ -23,13 +23,13 @@ public class VegetationGenerator : MonoBehaviour
     [SerializeField] Vector2 rotationRange;
     [SerializeField] Vector3 minScale;
     [SerializeField] Vector3 maxScale;
-	[System.NonSerialized] public int scale = 1;
+	[System.NonSerialized] public int scale = 0;
 
 #if UNITY_EDITOR
 	public void Generate() { 
 		Clear();
 
-		for (int i = 0; i < density + (scale*10); i++) {
+		for (int i = 0; i < density + (scale*20); i++) {
 			float sampleX = Random.Range(-mapGenerator.mapChunkSize - 50 - scale, mapGenerator.mapChunkSize + 50 + scale);
 			float sampleY = Random.Range(-mapGenerator.mapChunkSize - 50 - scale, mapGenerator.mapChunkSize + 50 + scale);
 			Vector3 rayStart = new Vector3(sampleX, maxHeight, sampleY);
