@@ -23,5 +23,4 @@ Diamond-square algorithm:
 Worley Noise:
 </br>
  ![worley](https://user-images.githubusercontent.com/105114750/203413669-b5da88be-df01-4b70-8f29-9dde23fe4a91.JPG)
- ![worleywithvegetation](https://user-images.githubusercontent.com/105114750/207902217-0e214280-6f34-4b34-9179-f1a8f80b860a.JPG)
-
+ ![worleyvegeatt](https://user-images.githubusercontent.com/105114750/209327943-a1a57eec-9e34-40fc-a53d-255b8d28fd17.JPG)
