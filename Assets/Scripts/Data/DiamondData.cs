@@ -6,7 +6,7 @@ using UnityEngine;
 public class DiamondData : UpdatebleData
 {
     public float roughness;
-    public float diamondseed;
+    public int diamondseed;
     [Range(0, 2)]
     public float colourDivider;
 }

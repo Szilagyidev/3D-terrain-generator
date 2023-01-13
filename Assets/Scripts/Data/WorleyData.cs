@@ -10,6 +10,7 @@ public class WorleyData : UpdatebleData
     public float colourDivider;
     [Range(0, 6)]
     public int distanceBetweenPoints;
+    public int seed;
 
     #if UNITY_EDITOR
 

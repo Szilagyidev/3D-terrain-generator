@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: WorleyNoise
   m_EditorClassIdentifier: 
   autoUpdate: 1
-  points: 22
+  points: 20
   colourDivider: 0.01
   distanceBetweenPoints: 0
+  seed: 11

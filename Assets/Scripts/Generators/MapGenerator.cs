@@ -294,8 +294,7 @@ public class MapGenerator : MonoBehaviour
 
     MapData GenerateMapDataForDiamond()
     {
-        float[,] diamondsquareMap = DiamondSquareAlgorithm.GenerateDiamondSquareMap(mapChunkSizeDiamond, mapChunkSizeDiamond, diamondData.roughness, diamondData.diamondseed);
-
+        float[,] diamondsquareMap = DiamondSquareAlgorithm.GenerateDiamondSquareMap(mapChunkSizeDiamond, diamondData.roughness, diamondData.diamondseed);
         if (terrainDiamondData.useFalloff)
         {
 
@@ -322,7 +321,7 @@ public class MapGenerator : MonoBehaviour
 
     MapData GenerateMapDataForWolrey()
     {
-        float[,] worleyMap = WorleyNoise.GenerateWorleyMap(mapChunkSize, mapChunkSize, worleyData.points, worleyData.distanceBetweenPoints);
+        float[,] worleyMap = WorleyNoise.GenerateWorleyMap(mapChunkSize, mapChunkSize, worleyData.points, worleyData.distanceBetweenPoints, worleyData.seed);
 
         if (terrainWorleyData.useFalloff)
         {

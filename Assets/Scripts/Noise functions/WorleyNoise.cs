@@ -6,18 +6,16 @@ using System;
 
 public static class WorleyNoise
 {
-    public static float[,] GenerateWorleyMap(int mapWidth, int mapHeight, int points, int distanceBetweenPoints)
+    public static float[,] GenerateWorleyMap(int mapWidth, int mapHeight, int points, int distanceBetweenPoints, int seed)
     {
-
         float[,] worleyMap = new float[mapWidth, mapHeight];
 
         Vector2[] allpoints = new Vector2[points];
-
+        System.Random rand = new System.Random(seed);
         for (int i = 0; i < points; i++)
         {
-            allpoints[i] = new Vector2(Random.Range(1, mapWidth), Random.Range(1, mapHeight)); //lehet 0 is, lehet más alapján is nem csak random
+            allpoints[i] = new Vector2(rand.Next(1, mapWidth), rand.Next(1, mapHeight)); //can be 0 too, can apply algortihm not just random number for more complexity.
         }
-
 
         for (int x = 0; x < mapWidth; x++)
         {

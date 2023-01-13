@@ -4,25 +4,20 @@ using System.Collections.Generic;
 using System;
 public static class DiamondSquareAlgorithm
 {
-    public static float[,] GenerateDiamondSquareMap(int terrainPoints, int terrainPoints2, float roughness, float seed)
+    public static float[,] GenerateDiamondSquareMap(int terrainPoints, float roughness, int seed)
     {
-
         int DATA_SIZE = terrainPoints + 1;
-
         float[,] data = new float[DATA_SIZE, DATA_SIZE];
+
+        System.Random rand = new System.Random(seed);
+        
         data[0, 0] = data[0, DATA_SIZE - 1] = data[DATA_SIZE - 1, 0] =
-        data[DATA_SIZE - 1, DATA_SIZE - 1] = seed;
+        data[DATA_SIZE - 1, DATA_SIZE - 1] = (float)rand.NextDouble();
 
         float h = roughness;
-        Random r = new Random();
 
-        for (int sideLength = DATA_SIZE - 1;
-
-            sideLength >= 2;
-
-            sideLength /= 2, h /= 2.0f)
+        for (int sideLength = DATA_SIZE - 1; sideLength >= 2; sideLength /= 2, h /= 2.0f)
         {
-
             int halfSide = sideLength / 2;
 
             for (int x = 0; x < DATA_SIZE - 1; x += sideLength)
@@ -35,7 +30,7 @@ public static class DiamondSquareAlgorithm
                     data[x + sideLength, y + sideLength];//lower right
                     avg /= 4.0f;
 
-                    data[x + halfSide, y + halfSide] = avg + ((float)r.NextDouble() * 2 * h) - h;
+                    data[x + halfSide, y + halfSide] = avg + ((float)rand.NextDouble() * 2 * h) - h;
                 }
             }
 
@@ -50,7 +45,7 @@ public static class DiamondSquareAlgorithm
                       data[x, (y - halfSide + (DATA_SIZE - 1)) % (DATA_SIZE - 1)]; //above center
                     avg /= 4.0f;
 
-                    avg = avg + ((float)r.NextDouble() * 2 * h) - h;
+                    avg = avg + ((float)rand.NextDouble() * 2 * h) - h;
                     data[x, y] = avg;
 
                     if (x == 0) data[DATA_SIZE - 1, y] = avg;
