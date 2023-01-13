@@ -11,6 +11,7 @@ public class WorleyData : UpdatebleData
     [Range(0, 6)]
     public int distanceBetweenPoints;
     public int seed;
+    public Vector2 offset;
 
     #if UNITY_EDITOR
 

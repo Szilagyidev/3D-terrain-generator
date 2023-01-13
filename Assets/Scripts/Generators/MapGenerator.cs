@@ -321,7 +321,7 @@ public class MapGenerator : MonoBehaviour
 
     MapData GenerateMapDataForWolrey()
     {
-        float[,] worleyMap = WorleyNoise.GenerateWorleyMap(mapChunkSize, mapChunkSize, worleyData.points, worleyData.distanceBetweenPoints, worleyData.seed);
+        float[,] worleyMap = WorleyNoise.GenerateWorleyMap(mapChunkSize, mapChunkSize, worleyData.points, worleyData.distanceBetweenPoints, worleyData.seed, worleyData.offset);
 
         if (terrainWorleyData.useFalloff)
         {

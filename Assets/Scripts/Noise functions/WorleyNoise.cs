@@ -6,7 +6,7 @@ using System;
 
 public static class WorleyNoise
 {
-    public static float[,] GenerateWorleyMap(int mapWidth, int mapHeight, int points, int distanceBetweenPoints, int seed)
+    public static float[,] GenerateWorleyMap(int mapWidth, int mapHeight, int points, int distanceBetweenPoints, int seed, Vector2 offset)
     {
         float[,] worleyMap = new float[mapWidth, mapHeight];
 
@@ -14,7 +14,7 @@ public static class WorleyNoise
         System.Random rand = new System.Random(seed);
         for (int i = 0; i < points; i++)
         {
-            allpoints[i] = new Vector2(rand.Next(1, mapWidth), rand.Next(1, mapHeight)); //can be 0 too, can apply algortihm not just random number for more complexity.
+            allpoints[i] = new Vector2(rand.Next(1, mapWidth) + offset.x, rand.Next(1, mapHeight) + offset.y); //can be 0 too, can apply algortihm not just random number for more complexity.
         }
 
         for (int x = 0; x < mapWidth; x++)
@@ -39,5 +39,4 @@ public static class WorleyNoise
         }
         return worleyMap;
     }
-
 }

@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-//using UnityEngine;
+using UnityEngine;
 using System;
 public static class DiamondSquareAlgorithm
 {
@@ -10,7 +10,7 @@ public static class DiamondSquareAlgorithm
         float[,] data = new float[DATA_SIZE, DATA_SIZE];
 
         System.Random rand = new System.Random(seed);
-        
+
         data[0, 0] = data[0, DATA_SIZE - 1] = data[DATA_SIZE - 1, 0] =
         data[DATA_SIZE - 1, DATA_SIZE - 1] = (float)rand.NextDouble();
 
@@ -55,4 +55,5 @@ public static class DiamondSquareAlgorithm
         }
         return data;
     }
+
 }
