@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: DiamondNoise
   m_EditorClassIdentifier: 
   autoUpdate: 1
-  roughness: 0.9
+  roughness: 0.92
   diamondseed: 3
-  colourDivider: 0.6
+  colourDivider: 0.806

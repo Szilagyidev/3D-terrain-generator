@@ -15,6 +15,6 @@ MonoBehaviour:
   autoUpdate: 1
   points: 30
   colourDivider: 0.01
-  distanceBetweenPoints: 0
+  distanceBetweenPoints: 1
   seed: 11
   offset: {x: 0, y: 0}

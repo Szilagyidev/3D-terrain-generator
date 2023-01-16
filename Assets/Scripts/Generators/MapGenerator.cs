@@ -41,6 +41,9 @@ public class MapGenerator : MonoBehaviour
     public bool GenerateWater;
     public float[,] fallOffMap;
 
+    //[System.NonSerialized]
+    public string currentNoise = "Perlin";
+
     Queue<MapThreadInfo<MapData>> mapDataThreadInfoQueue = new Queue<MapThreadInfo<MapData>>();
     Queue<MapThreadInfo<MeshData>> meshDataThreadInfoQueue = new Queue<MapThreadInfo<MeshData>>();
     
@@ -52,10 +55,6 @@ public class MapGenerator : MonoBehaviour
         textureData.UpdateMeshHeights(terrainMaterial, terrainDiamondData.minHeight, terrainDiamondData.maxHeight / diamondData.colourDivider);
         textureData.UpdateMeshHeights(terrainMaterial, terrainWorleyData.minHeight, terrainWorleyData.maxHeight / worleyData.colourDivider);
     }
-
-    //[System.NonSerialized]
-    public string currentNoise = "Perlin";
-
     void OnValuesUpdated()
     {
         if (!Application.isPlaying)
@@ -165,7 +164,7 @@ public class MapGenerator : MonoBehaviour
         }
         else if (drawMode == DrawMode.Mesh)
         {
-            //GenerateForDiamond is the method but does the same
+            //GenerateForDiamond is the method name but does the same as worley
             display.DrawMesh(MeshGenerator.GenerateTerrainMeshForDiamond(mapData.heightMap, terrainWorleyData.meshHeightMultiplier, editorPreviewLOD));
         }
         generateWater.GenerateWaterForTerrain();
