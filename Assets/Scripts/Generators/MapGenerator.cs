@@ -25,8 +25,8 @@ public class MapGenerator : MonoBehaviour
 
     public TextureData textureData;
     public Material terrainMaterial;
-    public GenerateAllVegetation generateAll;
     public GenerateWater generateWater;
+    public VegetationGenerator vegetationGenerator;
 
     [Range(0, MeshGenerator.numSupportedChunkSizes - 1)]
     public int chunkSizeIndex;
@@ -105,7 +105,7 @@ public class MapGenerator : MonoBehaviour
             display.DrawTexture(TextureGenerator.TextureFromHeightMap(FalloffGenerator.GenerateFalloffMap(mapChunkSize)));
         }
         generateWater.GenerateWaterForTerrain();
-        generateAll.GenerateAll();
+        vegetationGenerator.Generate();
     }
 
     public void DrawMapInEditorForRidgedPerlin()
@@ -130,7 +130,7 @@ public class MapGenerator : MonoBehaviour
             display.DrawTexture(TextureGenerator.TextureFromHeightMap(FalloffGenerator.GenerateFalloffMap(mapChunkSize)));
         }
         generateWater.GenerateWaterForTerrain();
-        generateAll.GenerateAll();
+        vegetationGenerator.Generate();
     }
 
     public void DrawMapInEditorForDiamond()
@@ -149,7 +149,7 @@ public class MapGenerator : MonoBehaviour
             display.DrawMesh(MeshGenerator.GenerateTerrainMeshForDiamond(mapData.heightMap, terrainDiamondData.meshHeightMultiplier, editorPreviewLOD));
         }
         generateWater.GenerateWaterForTerrain();
-        generateAll.GenerateAll();
+        vegetationGenerator.Generate();
     }
     public void DrawMapInEditorForWorley()
     {
@@ -168,7 +168,7 @@ public class MapGenerator : MonoBehaviour
             display.DrawMesh(MeshGenerator.GenerateTerrainMeshForDiamond(mapData.heightMap, terrainWorleyData.meshHeightMultiplier, editorPreviewLOD));
         }
         generateWater.GenerateWaterForTerrain();
-        generateAll.GenerateAll();
+        vegetationGenerator.Generate();
     }
 
     public void RequestMapData(Vector2 centre, Action<MapData> callback)

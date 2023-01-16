@@ -39,13 +39,7 @@ public class EndlessTerrain : MonoBehaviour
         if(mapGenerator.currentNoise =="RidgedPerlin"){mapGenerator.DrawMapInEditorForRidgedPerlin();}
 
         if(mapGenerator.GenerateVegetation == true){
-            mapGenerator.generateAll.tree.scale = mapGenerator.generateAll.scale;
-            mapGenerator.generateAll.grass.scale = mapGenerator.generateAll.scale;
-            mapGenerator.generateAll.grass2.scale = mapGenerator.generateAll.scale;
-            mapGenerator.generateAll.grass3.scale = mapGenerator.generateAll.scale;
-            mapGenerator.generateAll.flower.scale = mapGenerator.generateAll.scale;
-            mapGenerator.generateAll.flower2.scale = mapGenerator.generateAll.scale;
-            mapGenerator.generateAll.GenerateAll();
+            mapGenerator.vegetationGenerator.Generate();
         }
     }
 
@@ -86,7 +80,6 @@ public class EndlessTerrain : MonoBehaviour
                 else
                 {
                     terrainChunkDictionary.Add(viewedChunkCord, new TerrainChunk(viewedChunkCord, chunkSize, detailLevels, transform, mapMaterial, prefab));
-                    mapGenerator.generateAll.scale += 200;
                 }
             }
         }
