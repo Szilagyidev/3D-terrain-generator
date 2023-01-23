@@ -2,8 +2,12 @@
  3D terrain generation with multiple function noises with added vegetation and endless terrain generator for perlin / ridged perlin noise including LOD. 
  
 Perlin Noise:
+Solarized dark             |  Solarized Ocean
+:-------------------------:|:-------------------------:
+ ![perlin](https://user-images.githubusercontent.com/105114750/203413494-4a2103b1-441b-400c-838a-937770f5d801.JPG) |  ![perlingif](https://user-images.githubusercontent.com/105114750/214107853-ac97b6b0-5c0a-4b91-aad7-f7aaeb5faaae.gif)
 </br>
- ![perlin](https://user-images.githubusercontent.com/105114750/203413494-4a2103b1-441b-400c-838a-937770f5d801.JPG)![perlingif](https://user-images.githubusercontent.com/105114750/214107853-ac97b6b0-5c0a-4b91-aad7-f7aaeb5faaae.gif)
+
+
 
 
 
