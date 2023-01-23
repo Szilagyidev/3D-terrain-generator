@@ -3,8 +3,9 @@
  
 Perlin Noise:
 </br>
- ![perlin](https://user-images.githubusercontent.com/105114750/203413494-4a2103b1-441b-400c-838a-937770f5d801.JPG)
- ![perlinwithvegetation](https://user-images.githubusercontent.com/105114750/207901974-3f95dbc7-f463-41b3-860f-8223410c70ab.JPG)
+ ![perlin](https://user-images.githubusercontent.com/105114750/203413494-4a2103b1-441b-400c-838a-937770f5d801.JPG)![perlingif](https://user-images.githubusercontent.com/105114750/214107853-ac97b6b0-5c0a-4b91-aad7-f7aaeb5faaae.gif)
+
+
 
 
 
