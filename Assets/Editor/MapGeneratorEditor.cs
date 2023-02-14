@@ -15,10 +15,10 @@ public class MapGeneratorEditor : Editor
         {
             if (mapGen.autoUpdate)
             {
-                mapGen.DrawMapInEditorForPerlin();
-                mapGen.DrawMapInEditorForDiamond();
-                mapGen.DrawMapInEditorForRidgedPerlin();
-                mapGen.DrawMapInEditorForWorley();
+                if(mapGen.currentNoise=="Perlin"){mapGen.DrawMapInEditorForPerlin();}
+                if(mapGen.currentNoise=="Diamond"){mapGen.DrawMapInEditorForDiamond();}
+                if(mapGen.currentNoise=="RidgedPerlin"){mapGen.DrawMapInEditorForRidgedPerlin();}
+                if(mapGen.currentNoise=="Worley"){mapGen.DrawMapInEditorForWorley();}
             }
         }
 

@@ -7,10 +7,10 @@ using UnityEditor;
 
 public class VegetationGenerator : MonoBehaviour
 {
-
     public MapGenerator mapGenerator;
     [SerializeField] GameObject[] prefabs;
     [SerializeField] PrefabArguments[] prefabArguments; // Array of prefab-specific arguments
+    public int terrainScale = 1;
 
     public void Generate()
     {
@@ -23,8 +23,8 @@ public class VegetationGenerator : MonoBehaviour
 
             for (int j = 0; j < arguments.density; j++)
             {
-                float sampleX = Random.Range(-mapGenerator.mapChunkSize - 50, mapGenerator.mapChunkSize + 50);
-                float sampleY = Random.Range(-mapGenerator.mapChunkSize - 50, mapGenerator.mapChunkSize + 50);
+                float sampleX = Random.Range((-mapGenerator.mapChunkSize - 50) * terrainScale, (mapGenerator.mapChunkSize + 50) * terrainScale);
+                float sampleY = Random.Range((-mapGenerator.mapChunkSize - 50) * terrainScale, (mapGenerator.mapChunkSize + 50) * terrainScale);
                 Vector3 rayStart = new Vector3(sampleX, arguments.maxHeight, sampleY);
 
                 if (!Physics.Raycast(rayStart, Vector3.down, out RaycastHit hit, Mathf.Infinity))
@@ -46,7 +46,6 @@ public class VegetationGenerator : MonoBehaviour
         }
         if (mapGenerator.GenerateVegetation == false) { Clear(); }
     }
-
     public void Clear()
     {
         while (transform.childCount != 0)

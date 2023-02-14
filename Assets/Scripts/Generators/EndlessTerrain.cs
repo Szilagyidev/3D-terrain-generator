@@ -39,7 +39,10 @@ public class EndlessTerrain : MonoBehaviour
         if(mapGenerator.currentNoise =="RidgedPerlin"){mapGenerator.DrawMapInEditorForRidgedPerlin();}
 
         if(mapGenerator.GenerateVegetation == true){
+            mapGenerator.vegetationGenerator.terrainScale = 5;
             mapGenerator.vegetationGenerator.Generate();
+        } else{
+            mapGenerator.vegetationGenerator.Clear();
         }
     }
 

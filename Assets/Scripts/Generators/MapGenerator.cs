@@ -63,12 +63,14 @@ public class MapGenerator : MonoBehaviour
             if (currentNoise == "Diamond") { DrawMapInEditorForDiamond(); }
             if (currentNoise == "RidgedPerlin") { DrawMapInEditorForRidgedPerlin();}
             if (currentNoise == "Worley") { DrawMapInEditorForWorley(); }
+            textureData.ApplyToMaterial(terrainMaterial);
+
         }
     }
 
     void OnTextureValuesUpdated()
     {
-        textureData.ApplyToMaterial(terrainMaterial);
+        textureData.ApplyToMaterial(terrainMaterial); // black map problem? solved maybe by pasting it above method and cut this out E16
     }
 
     public int mapChunkSize{

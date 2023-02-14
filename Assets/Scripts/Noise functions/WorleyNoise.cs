@@ -21,15 +21,12 @@ public static class WorleyNoise
         {
             for (int y = 0; y < mapHeight; y++)
             {
-
-                float[] distances = new float[points];
                 float[] sortedDistances = new float[points];
 
                 for (int i = 0; i < points; i++)
                 {
                     Vector2 pixel = new Vector2(x, y);
                     float d = Vector2.Distance(pixel, allpoints[i]);
-                    distances[i] = d;
                     sortedDistances[i] = d;
                 }
                 Array.Sort(sortedDistances);
