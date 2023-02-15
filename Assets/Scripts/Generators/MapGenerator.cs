@@ -238,8 +238,7 @@ public class MapGenerator : MonoBehaviour
 
     MapData GenerateMapDataForPerlin(Vector2 centre)
     {
-        float[,] noiseMap = Noise.GenerateNoiseMap(mapChunkSize + 2, mapChunkSize + 2, noiseData.perlinseed, noiseData.noiseScale,
-        noiseData.octaves, noiseData.presistance, noiseData.lacunarity, centre + noiseData.offset, normalizeMode);
+        float[,] noiseMap = Noise.GenerateNoiseMap(mapChunkSize + 2, mapChunkSize + 2, noiseData, normalizeMode);
 
         if (terrainData.useFalloff)
         {
@@ -267,8 +266,7 @@ public class MapGenerator : MonoBehaviour
 
     MapData GenerateMapDataForRidgedPerlin(Vector2 centre)
     {
-        float[,] ridgednoiseMap = RidgedNoise.GenerateRidgedNoiseMap(mapChunkSize + 2, mapChunkSize + 2, ridgedPerlinData.perlinseed, ridgedPerlinData.noiseScale,
-        ridgedPerlinData.octaves, ridgedPerlinData.presistance, ridgedPerlinData.lacunarity, centre + ridgedPerlinData.offset, ridgedPerlinData.inverton, ridgedNormalizeMode);
+        float[,] ridgednoiseMap = RidgedNoise.GenerateRidgedNoiseMap(mapChunkSize + 2, mapChunkSize + 2, ridgedPerlinData, ridgedNormalizeMode);
         if (terrainRidgedPerlin.useFalloff)
         {
 
@@ -295,7 +293,7 @@ public class MapGenerator : MonoBehaviour
 
     MapData GenerateMapDataForDiamond()
     {
-        float[,] diamondsquareMap = DiamondSquareAlgorithm.GenerateDiamondSquareMap(mapChunkSizeDiamond, diamondData.roughness, diamondData.diamondseed);
+        float[,] diamondsquareMap = DiamondSquareAlgorithm.GenerateDiamondSquareMap(mapChunkSizeDiamond, diamondData);
         if (terrainDiamondData.useFalloff)
         {
 
@@ -322,7 +320,7 @@ public class MapGenerator : MonoBehaviour
 
     MapData GenerateMapDataForWolrey()
     {
-        float[,] worleyMap = WorleyNoise.GenerateWorleyMap(mapChunkSize, mapChunkSize, worleyData.points, worleyData.distanceBetweenPoints, worleyData.seed, worleyData.offset);
+        float[,] worleyMap = WorleyNoise.GenerateWorleyMap(mapChunkSize, mapChunkSize, worleyData);
 
         if (terrainWorleyData.useFalloff)
         {

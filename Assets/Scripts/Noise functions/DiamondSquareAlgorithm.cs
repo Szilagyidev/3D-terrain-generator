@@ -4,17 +4,17 @@ using UnityEngine;
 using System;
 public static class DiamondSquareAlgorithm
 {
-    public static float[,] GenerateDiamondSquareMap(int terrainPoints, float roughness, int seed)
+    public static float[,] GenerateDiamondSquareMap(int terrainPoints, DiamondData diamondData)
     {
         int DATA_SIZE = terrainPoints + 1;
         float[,] data = new float[DATA_SIZE, DATA_SIZE];
 
-        System.Random rand = new System.Random(seed);
+        System.Random rand = new System.Random(diamondData.diamondseed);
 
         data[0, 0] = data[0, DATA_SIZE - 1] = data[DATA_SIZE - 1, 0] =
         data[DATA_SIZE - 1, DATA_SIZE - 1] = (float)rand.NextDouble();
 
-        float h = roughness;
+        float h = diamondData.roughness;
 
         for (int sideLength = DATA_SIZE - 1; sideLength >= 2; sideLength /= 2, h /= 2.0f)
         {

@@ -5,30 +5,30 @@ using UnityEngine;
 public static class RidgedNoise
 {
     public enum NormalizeMode { Local, Global };
-    public static float[,] GenerateRidgedNoiseMap(int mapWidth, int mapHeight, int seed, float scale, int octaves, float presistance, float lacunarity, Vector2 offset, float inverton, NormalizeMode normalizeMode)
+    public static float[,] GenerateRidgedNoiseMap(int mapWidth, int mapHeight, RidgedPerlinData ridgedPerlinData, NormalizeMode normalizeMode)
     {
         float[,] noiseMap = new float[mapWidth, mapHeight];
 
-        System.Random prng = new System.Random(seed);
-        Vector2[] octaveOffsets = new Vector2[octaves];
+        System.Random prng = new System.Random(ridgedPerlinData.perlinseed);
+        Vector2[] octaveOffsets = new Vector2[ridgedPerlinData.octaves];
 
         float maxPossibleHeight = 0;
         float amplitude = 1;
         float frequency = 1;
 
-        for (int i = 0; i < octaves; i++)
+        for (int i = 0; i < ridgedPerlinData.octaves; i++)
         {
-            float offsetX = prng.Next(-100000, 100000) + offset.x;
-            float offsetY = prng.Next(-100000, 100000) - offset.y;
+            float offsetX = prng.Next(-100000, 100000) + ridgedPerlinData.offset.x;
+            float offsetY = prng.Next(-100000, 100000) - ridgedPerlinData.offset.y;
             octaveOffsets[i] = new Vector2(offsetX, offsetY);
 
             maxPossibleHeight += amplitude;
-            amplitude *= presistance;
+            amplitude *= ridgedPerlinData.presistance;
         }
 
-        if (scale <= 0)
+        if (ridgedPerlinData.noiseScale <= 0)
         {
-            scale = 0.0001f;
+           ridgedPerlinData.noiseScale = 0.0001f;
         }
 
         float maxLocalNoiseHeight = float.MinValue;
@@ -45,16 +45,16 @@ public static class RidgedNoise
                 frequency = 1;
                 float noiseHeight = 0;
 
-                for (int i = 0; i < octaves; i++)
+                for (int i = 0; i < ridgedPerlinData.octaves; i++)
                 {
-                    float sampleX = (x - halfWidth + octaveOffsets[i].x) / scale * frequency;
-                    float sampleY = (y - halfHeight + octaveOffsets[i].y) / scale * frequency;
+                    float sampleX = (x - halfWidth + octaveOffsets[i].x) / ridgedPerlinData.noiseScale * frequency;
+                    float sampleY = (y - halfHeight + octaveOffsets[i].y) / ridgedPerlinData.noiseScale * frequency;
 
                     float perlinValue = Mathf.PerlinNoise(sampleX, sampleY) * 2 - 1;
                     noiseHeight += perlinValue * amplitude;
 
-                    amplitude *= presistance;
-                    frequency *= lacunarity;
+                    amplitude *= ridgedPerlinData.presistance;
+                    frequency *= ridgedPerlinData.lacunarity;
                 }
 
                 if (noiseHeight > maxLocalNoiseHeight)
@@ -66,7 +66,7 @@ public static class RidgedNoise
                     minLocalNoiseHeight = noiseHeight;
                 }
 
-                noiseMap[x, y] = Mathf.Abs(noiseHeight) * -inverton;
+                noiseMap[x, y] = Mathf.Abs(noiseHeight) * -ridgedPerlinData.inverton;
             }
         }
 

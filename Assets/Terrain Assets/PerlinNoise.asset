@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PerlinNoise
   m_EditorClassIdentifier: 
   autoUpdate: 1
-  noiseScale: 67.7
+  noiseScale: 109.4
   octaves: 15
   presistance: 0.441
   lacunarity: 2.04
