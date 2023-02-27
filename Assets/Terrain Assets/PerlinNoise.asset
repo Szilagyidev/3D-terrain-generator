@@ -17,5 +17,5 @@ MonoBehaviour:
   octaves: 15
   presistance: 0.441
   lacunarity: 2.04
-  perlinseed: 59
-  offset: {x: 0, y: 0}
+  perlinseed: 2
+  offset: {x: -238, y: -714}

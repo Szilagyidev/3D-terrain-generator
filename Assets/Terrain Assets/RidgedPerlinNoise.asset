@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: RidgedPerlinNoise
   m_EditorClassIdentifier: 
   autoUpdate: 1
-  noiseScale: 124.2
+  noiseScale: 133.04
   octaves: 8
   presistance: 0.451
   lacunarity: 2.28

@@ -238,7 +238,8 @@ public class MapGenerator : MonoBehaviour
 
     MapData GenerateMapDataForPerlin(Vector2 centre)
     {
-        float[,] noiseMap = Noise.GenerateNoiseMap(mapChunkSize + 2, mapChunkSize + 2, noiseData, normalizeMode);
+        float[,] noiseMap = Noise.GenerateNoiseMap(mapChunkSize + 2, mapChunkSize + 2, noiseData.perlinseed, noiseData.noiseScale,
+        noiseData.octaves, noiseData.presistance, noiseData.lacunarity, centre + noiseData.offset, normalizeMode);
 
         if (terrainData.useFalloff)
         {
@@ -266,7 +267,8 @@ public class MapGenerator : MonoBehaviour
 
     MapData GenerateMapDataForRidgedPerlin(Vector2 centre)
     {
-        float[,] ridgednoiseMap = RidgedNoise.GenerateRidgedNoiseMap(mapChunkSize + 2, mapChunkSize + 2, ridgedPerlinData, ridgedNormalizeMode);
+        float[,] ridgednoiseMap = RidgedNoise.GenerateRidgedNoiseMap(mapChunkSize + 2, mapChunkSize + 2, ridgedPerlinData.perlinseed, ridgedPerlinData.noiseScale,
+        ridgedPerlinData.octaves, ridgedPerlinData.presistance, ridgedPerlinData.lacunarity, centre + ridgedPerlinData.offset, ridgedPerlinData.inverton, ridgedNormalizeMode);
         if (terrainRidgedPerlin.useFalloff)
         {
 
