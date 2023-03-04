@@ -26,6 +26,7 @@ public class EndlessTerrain : MonoBehaviour
     static List<TerrainChunk> terrainChunksVisibleLastUpdate = new List<TerrainChunk>();
     [SerializeField] GameObject prefab;
     public float heatThresholdScale = 20.0f;
+    public bool useHeatMap;
     public HeatTerrainTypes[] heatTerrainTypes;
 
     void Start()
@@ -88,7 +89,12 @@ public class EndlessTerrain : MonoBehaviour
                 }
                 else
                 {
-                    terrainChunkDictionary.Add(viewedChunkCord, new TerrainChunk(viewedChunkCord, chunkSize, detailLevels, transform, ApplyMaterialByTreshold(viewedChunkCord), prefab));
+                    if(useHeatMap == true){
+                        terrainChunkDictionary.Add(viewedChunkCord, new TerrainChunk(viewedChunkCord, chunkSize, detailLevels, transform, ApplyMaterialByTreshold(viewedChunkCord), prefab));
+                    } else if(useHeatMap == false){
+                        terrainChunkDictionary.Add(viewedChunkCord, new TerrainChunk(viewedChunkCord, chunkSize, detailLevels, transform, mapMaterials[2], prefab));
+                    }
+                    
                 }
             }
         }
@@ -112,7 +118,6 @@ public class EndlessTerrain : MonoBehaviour
         heatTerrainTypes[i].textureData.ApplyToMaterial(mapMaterials[i]);
         return mapMaterials[i];
     }
-
 
     public class TerrainChunk
     {
@@ -142,8 +147,6 @@ public class EndlessTerrain : MonoBehaviour
             meshObject = new GameObject("Terrain Chunk");
             meshRenderer = meshObject.AddComponent<MeshRenderer>();
             meshFilter = meshObject.AddComponent<MeshFilter>();
-
-            //mapGenerator.ApplyMaterialByTreshold();
             meshRenderer.material = material;
 
             meshObject.transform.position = positionV3 * mapGenerator.terrainData.uniformscale;
