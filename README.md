@@ -1,5 +1,5 @@
 # 3D-Terrain-Generator
- 3D terrain generation with multiple function noises with added vegetation and endless terrain generator for perlin / ridged perlin noise including LOD. 
+ 3D terrain generation with multiple function noises with added vegetation and endless terrain generator for perlin / ridged perlin noise including LOD and Heatmap. 
  
 Perlin Noise:
 </br>
