@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -14,7 +15,7 @@ public class EndlessTerrain : MonoBehaviour
     public static float maxViewDst;
 
     public Transform viewer;
-    public Material mapMaterial;
+    public Material[] mapMaterials;
 
     public static Vector2 viewerPosition;
     Vector2 viewerPositionOld;
@@ -24,7 +25,9 @@ public class EndlessTerrain : MonoBehaviour
     Dictionary<Vector2, TerrainChunk> terrainChunkDictionary = new Dictionary<Vector2, TerrainChunk>();
     static List<TerrainChunk> terrainChunksVisibleLastUpdate = new List<TerrainChunk>();
     [SerializeField] GameObject prefab;
-    
+    public float heatThresholdScale = 20.0f;
+    public HeatTerrainTypes[] heatTerrainTypes;
+
     void Start()
     {
         mapGenerator = FindObjectOfType<MapGenerator>();
@@ -35,13 +38,16 @@ public class EndlessTerrain : MonoBehaviour
 
         UpdateVisibleChunks();
 
-        if(mapGenerator.currentNoise =="Perlin"){mapGenerator.DrawMapInEditorForPerlin();}
-        if(mapGenerator.currentNoise =="RidgedPerlin"){mapGenerator.DrawMapInEditorForRidgedPerlin();}
+        if (mapGenerator.currentNoise == "Perlin") { mapGenerator.DrawMapInEditorForPerlin(); }
+        if (mapGenerator.currentNoise == "RidgedPerlin") { mapGenerator.DrawMapInEditorForRidgedPerlin(); }
 
-        if(mapGenerator.GenerateVegetation == true){
+        if (mapGenerator.GenerateVegetation == true)
+        {
             mapGenerator.vegetationGenerator.terrainScale = 5;
             mapGenerator.vegetationGenerator.Generate();
-        } else{
+        }
+        else
+        {
             mapGenerator.vegetationGenerator.Clear();
         }
     }
@@ -82,11 +88,31 @@ public class EndlessTerrain : MonoBehaviour
                 }
                 else
                 {
-                    terrainChunkDictionary.Add(viewedChunkCord, new TerrainChunk(viewedChunkCord, chunkSize, detailLevels, transform, mapMaterial, prefab));
+                    terrainChunkDictionary.Add(viewedChunkCord, new TerrainChunk(viewedChunkCord, chunkSize, detailLevels, transform, ApplyMaterialByTreshold(viewedChunkCord), prefab));
                 }
             }
         }
     }
+
+    //this method generates in a cirlce pattern
+    Material ApplyMaterialByTreshold(Vector2 viewedChunkCord)
+    {
+        float vecMagnitude = viewedChunkCord.magnitude / heatThresholdScale;
+        int i = 0;
+        while (vecMagnitude >= heatTerrainTypes[i].threshold)
+        {
+            i++;
+            if (i >= heatTerrainTypes.Length)
+            {
+                i = 0;
+                vecMagnitude = vecMagnitude % heatTerrainTypes[heatTerrainTypes.Length - 1].threshold; //ensure that it remains within the range of the thresholds.
+            }
+        }
+        heatTerrainTypes[i].textureData.UpdateMeshHeights(mapMaterials[i], mapGenerator.terrainData.minHeight, mapGenerator.terrainData.maxHeight);
+        heatTerrainTypes[i].textureData.ApplyToMaterial(mapMaterials[i]);
+        return mapMaterials[i];
+    }
+
 
     public class TerrainChunk
     {
@@ -116,6 +142,8 @@ public class EndlessTerrain : MonoBehaviour
             meshObject = new GameObject("Terrain Chunk");
             meshRenderer = meshObject.AddComponent<MeshRenderer>();
             meshFilter = meshObject.AddComponent<MeshFilter>();
+
+            //mapGenerator.ApplyMaterialByTreshold();
             meshRenderer.material = material;
 
             meshObject.transform.position = positionV3 * mapGenerator.terrainData.uniformscale;
@@ -125,10 +153,11 @@ public class EndlessTerrain : MonoBehaviour
             meshCollider = meshObject.AddComponent<MeshCollider>();
             meshCollider.sharedMesh = meshFilter.mesh;
 
-            if(mapGenerator.GenerateWater == true){
+            if (mapGenerator.GenerateWater == true)
+            {
                 Vector3 scaleForWater = new Vector3(mapGenerator.mapChunkSize / 4 + 0.5f, mapGenerator.mapChunkSize / 4 + 0.5f, mapGenerator.mapChunkSize / 4 + 0.5f);
                 waterPrefab = Instantiate(prefab, positionV3 * mapGenerator.terrainData.uniformscale, Quaternion.identity);
-                waterPrefab.transform.position =  new Vector3(waterPrefab.transform.position.x, 10, waterPrefab.transform.position.z);
+                waterPrefab.transform.position = new Vector3(waterPrefab.transform.position.x, 10, waterPrefab.transform.position.z);
                 waterPrefab.transform.localScale = scaleForWater;
                 waterPrefab.transform.parent = parent;
             }
@@ -198,7 +227,7 @@ public class EndlessTerrain : MonoBehaviour
         public void SetVisible(bool visible)
         {
             meshObject.SetActive(visible);
-           if(mapGenerator.GenerateWater == true){waterPrefab.SetActive(visible);}
+            if (mapGenerator.GenerateWater == true) { waterPrefab.SetActive(visible); }
         }
 
         public bool IsVisible()
@@ -225,7 +254,7 @@ public class EndlessTerrain : MonoBehaviour
         void OnMeshDataRecieved(MeshData meshData)
         {
             mesh = meshData.CreateMesh();
-            
+
             hasMesh = true;
 
             updateCallback();
@@ -246,4 +275,12 @@ public class EndlessTerrain : MonoBehaviour
         public float visibleDstThreshold;
     }
 
+}
+
+[System.Serializable]
+public struct HeatTerrainTypes
+{
+    public string name;
+    public float threshold;
+    public TextureData textureData;
 }

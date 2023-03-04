@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.Threading;
-using System.Collections.Generic;
 
 public class MapGenerator : MonoBehaviour
 {
     public enum DrawMode { NoiseMap, Mesh, FalloffMap };
     public DrawMode drawMode;
-
     public Noise.NormalizeMode normalizeMode;
     public RidgedNoise.NormalizeMode ridgedNormalizeMode;
 
@@ -45,41 +43,44 @@ public class MapGenerator : MonoBehaviour
 
     Queue<MapThreadInfo<MapData>> mapDataThreadInfoQueue = new Queue<MapThreadInfo<MapData>>();
     Queue<MapThreadInfo<MeshData>> meshDataThreadInfoQueue = new Queue<MapThreadInfo<MeshData>>();
-    
+
     void Awake()
     {
-        textureData.ApplyToMaterial(terrainMaterial);
         textureData.UpdateMeshHeights(terrainMaterial, terrainData.minHeight, terrainData.maxHeight);
         textureData.UpdateMeshHeights(terrainMaterial, terrainRidgedPerlin.minHeight, terrainRidgedPerlin.maxHeight * diamondData.colourDivider);
         textureData.UpdateMeshHeights(terrainMaterial, terrainDiamondData.minHeight, terrainDiamondData.maxHeight / diamondData.colourDivider);
         textureData.UpdateMeshHeights(terrainMaterial, terrainWorleyData.minHeight, terrainWorleyData.maxHeight / worleyData.colourDivider);
+        textureData.ApplyToMaterial(terrainMaterial);
     }
+
     void OnValuesUpdated()
     {
         if (!Application.isPlaying)
         {
-            if (currentNoise == "Perlin") { DrawMapInEditorForPerlin();}
-            if (currentNoise == "Diamond") { DrawMapInEditorForDiamond(); }
-            if (currentNoise == "RidgedPerlin") { DrawMapInEditorForRidgedPerlin();}
-            if (currentNoise == "Worley") { DrawMapInEditorForWorley(); }
             textureData.ApplyToMaterial(terrainMaterial);
-
+            if (currentNoise == "Perlin") { DrawMapInEditorForPerlin(); }
+            if (currentNoise == "Diamond") { DrawMapInEditorForDiamond(); }
+            if (currentNoise == "RidgedPerlin") { DrawMapInEditorForRidgedPerlin(); }
+            if (currentNoise == "Worley") { DrawMapInEditorForWorley(); }
         }
     }
-
     void OnTextureValuesUpdated()
     {
-        //textureData.ApplyToMaterial(terrainMaterial); // black map problem? solved maybe by pasting it above method and cut this out E16
+        textureData.ApplyToMaterial(terrainMaterial); // black map problem? solved maybe by pasting it above method and cut this out E16
     }
 
-    public int mapChunkSize{
-        get {
+    public int mapChunkSize
+    {
+        get
+        {
             return MeshGenerator.supportedChunkSizes[chunkSizeIndex] - 1;
         }
     }
 
-    public int mapChunkSizeDiamond{
-        get {
+    public int mapChunkSizeDiamond
+    {
+        get
+        {
             return MeshGenerator.supportedChunkSizesforDiamond[chunkSizeIndexforDiamond];
         }
     }
@@ -188,8 +189,8 @@ public class MapGenerator : MonoBehaviour
         MapData mapDataRidged = GenerateMapDataForRidgedPerlin(centre);
         lock (mapDataThreadInfoQueue)
         {
-            if(currentNoise == "Perlin" ) { mapDataThreadInfoQueue.Enqueue(new MapThreadInfo<MapData>(callback, mapData));}
-            if (currentNoise == "RidgedPerlin") {mapDataThreadInfoQueue.Enqueue(new MapThreadInfo<MapData>(callback, mapDataRidged));}
+            if (currentNoise == "Perlin") { mapDataThreadInfoQueue.Enqueue(new MapThreadInfo<MapData>(callback, mapData)); }
+            if (currentNoise == "RidgedPerlin") { mapDataThreadInfoQueue.Enqueue(new MapThreadInfo<MapData>(callback, mapDataRidged)); }
         }
     }
 
@@ -209,8 +210,8 @@ public class MapGenerator : MonoBehaviour
         MeshData meshDataRidged = MeshGenerator.GenerateTerrainMeshForPerlin(mapData.heightMap, terrainRidgedPerlin.meshHeightMultiplier, terrainRidgedPerlin.meshHeightCurve, lod);
         lock (meshDataThreadInfoQueue)
         {
-            if(currentNoise == "Perlin" ) {meshDataThreadInfoQueue.Enqueue(new MapThreadInfo<MeshData>(callback, meshData));}
-            if(currentNoise == "RidgedPerlin") {meshDataThreadInfoQueue.Enqueue(new MapThreadInfo<MeshData>(callback, meshDataRidged));}
+            if (currentNoise == "Perlin") { meshDataThreadInfoQueue.Enqueue(new MapThreadInfo<MeshData>(callback, meshData)); }
+            if (currentNoise == "RidgedPerlin") { meshDataThreadInfoQueue.Enqueue(new MapThreadInfo<MeshData>(callback, meshDataRidged)); }
         }
     }
 
@@ -314,7 +315,7 @@ public class MapGenerator : MonoBehaviour
                 }
             }
         }
-        generateWater.posForWater = new Vector3(mapChunkSizeDiamond / 4 + 0.5f , mapChunkSizeDiamond / 4 + 0.5f, mapChunkSizeDiamond / 4 + 0.5f);
+        generateWater.posForWater = new Vector3(mapChunkSizeDiamond / 4 + 0.5f, mapChunkSizeDiamond / 4 + 0.5f, mapChunkSizeDiamond / 4 + 0.5f);
         generateWater.waterLevel = 20;
         return new MapData(diamondsquareMap);
     }
@@ -408,7 +409,6 @@ public class MapGenerator : MonoBehaviour
 
     }
 }
-
 public struct MapData
 {
     public readonly float[,] heightMap;
