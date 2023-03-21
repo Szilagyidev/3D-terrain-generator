@@ -14,9 +14,8 @@ public class GenerateWater : MonoBehaviour
 
 #if UNITY_EDITOR
     public void GenerateWaterForTerrain(){
-        Clear();
-        
         if(mapGenerator.GenerateWater == true){
+            Clear();
             GameObject current = (GameObject)PrefabUtility.InstantiatePrefab(this.prefab, transform);
             current.transform.position = new Vector3(0, waterLevel, 0);
             current.transform.localScale = posForWater;
@@ -25,7 +24,7 @@ public class GenerateWater : MonoBehaviour
 		    }
         }
 
-    	public void Clear() {
+    public void Clear() {
 		while (transform.childCount != 0) {
 			DestroyImmediate(transform.GetChild(0).gameObject);
 		}
