@@ -66,7 +66,7 @@ public class MapGenerator : MonoBehaviour
     }
     void OnTextureValuesUpdated()
     {
-        textureData.ApplyToMaterial(terrainMaterial); // black map problem? solved maybe by pasting it above method and cut this out E16
+        textureData.ApplyToMaterial(terrainMaterial);
     }
 
     public int mapChunkSize
